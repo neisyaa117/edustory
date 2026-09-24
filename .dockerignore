@@ -1,0 +1,9 @@
+.git
+.gitignore
+.dockerignore
+database
+README.md
+config/lokal.php
+config/lokal.example.php
+.env
+.env.*

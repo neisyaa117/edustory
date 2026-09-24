@@ -1,0 +1,20 @@
+FROM dunglas/frankenphp:php8.3-alpine
+
+WORKDIR /app
+
+COPY . /app
+
+RUN docker-php-ext-install mysqli pdo pdo_mysql
+RUN install-php-extensions gd exif
+
+# Foto dari HP bisa besar, proses AI bisa memakan waktu.
+RUN { \
+      echo "upload_max_filesize=12M"; \
+      echo "post_max_size=40M"; \
+      echo "memory_limit=256M"; \
+      echo "max_execution_time=150"; \
+    } > /usr/local/etc/php/conf.d/zz-edustory.ini
+
+ENV SERVER_NAME=:80
+
+CMD ["sh", "-c", "frankenphp php-server --listen :${PORT:-80} --root /app"]
