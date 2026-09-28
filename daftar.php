@@ -53,9 +53,18 @@ $error = $_GET['error'] ?? '';
             min-height: 100vh;
             font-family: 'Nunito', sans-serif;
             color: var(--ink);
+
             background:
-                radial-gradient(circle at 8% 10%, rgba(255, 215, 106, .28), transparent 25%),
-                radial-gradient(circle at 92% 90%, rgba(244, 155, 82, .18), transparent 28%),
+                radial-gradient(
+                    circle at 8% 10%,
+                    rgba(255, 215, 106, .28),
+                    transparent 25%
+                ),
+                radial-gradient(
+                    circle at 92% 90%,
+                    rgba(244, 155, 82, .18),
+                    transparent 28%
+                ),
                 var(--cream);
 
             display: flex;
@@ -73,6 +82,7 @@ $error = $_GET['error'] ?? '';
             grid-template-columns: .85fr 1.15fr;
 
             background: rgba(255,255,255,.88);
+
             border: 1px solid rgba(79,143,114,.12);
 
             border-radius: 30px;
@@ -109,6 +119,7 @@ $error = $_GET['error'] ?? '';
 
         .intro::before {
             content: "";
+
             position: absolute;
 
             width: 220px;
@@ -124,6 +135,7 @@ $error = $_GET['error'] ?? '';
 
         .intro::after {
             content: "";
+
             position: absolute;
 
             width: 170px;
@@ -143,6 +155,7 @@ $error = $_GET['error'] ?? '';
 
             display: flex;
             align-items: center;
+
             gap: 10px;
 
             margin-bottom: 28px;
@@ -164,7 +177,8 @@ $error = $_GET['error'] ?? '';
 
             font-size: 25px;
 
-            box-shadow: 0 8px 18px rgba(79,143,114,.22);
+            box-shadow:
+                0 8px 18px rgba(79,143,114,.22);
         }
 
         .logo-text {
@@ -203,6 +217,7 @@ $error = $_GET['error'] ?? '';
             color: #5d6e64;
 
             font-size: 16px;
+
             line-height: 1.7;
         }
 
@@ -211,12 +226,14 @@ $error = $_GET['error'] ?? '';
 
             display: flex;
             flex-direction: column;
+
             gap: 13px;
         }
 
         .mini-item {
             display: flex;
             align-items: center;
+
             gap: 12px;
 
             color: #52645a;
@@ -260,6 +277,7 @@ $error = $_GET['error'] ?? '';
             font-family: 'Baloo 2', sans-serif;
 
             font-size: 31px;
+
             line-height: 1.1;
 
             color: var(--ink);
@@ -285,17 +303,20 @@ $error = $_GET['error'] ?? '';
             color: var(--danger);
 
             font-size: 13px;
+
             font-weight: 700;
         }
 
         form {
             display: flex;
             flex-direction: column;
+
             gap: 17px;
         }
 
         .form-row {
             display: grid;
+
             grid-template-columns: 1fr 1fr;
 
             gap: 15px;
@@ -310,6 +331,7 @@ $error = $_GET['error'] ?? '';
 
         label {
             font-size: 13px;
+
             font-weight: 800;
 
             color: #46574e;
@@ -331,6 +353,7 @@ $error = $_GET['error'] ?? '';
             padding: 12px 14px;
 
             font-family: 'Nunito', sans-serif;
+
             font-size: 14px;
 
             color: var(--ink);
@@ -349,7 +372,8 @@ $error = $_GET['error'] ?? '';
 
             background: white;
 
-            box-shadow: 0 0 0 4px rgba(79,143,114,.08);
+            box-shadow:
+                0 0 0 4px rgba(79,143,114,.08);
         }
 
         textarea {
@@ -365,6 +389,7 @@ $error = $_GET['error'] ?? '';
         .section-label {
             display: flex;
             align-items: center;
+
             gap: 8px;
 
             margin-top: 6px;
@@ -373,6 +398,7 @@ $error = $_GET['error'] ?? '';
             font-family: 'Baloo 2', sans-serif;
 
             font-size: 19px;
+
             font-weight: 700;
 
             color: var(--green-dark);
@@ -401,6 +427,7 @@ $error = $_GET['error'] ?? '';
             color: #61736a;
 
             font-size: 12px;
+
             line-height: 1.5;
         }
 
@@ -420,11 +447,13 @@ $error = $_GET['error'] ?? '';
             font-family: 'Nunito', sans-serif;
 
             font-size: 15px;
+
             font-weight: 800;
 
             cursor: pointer;
 
-            box-shadow: 0 9px 20px rgba(79,143,114,.22);
+            box-shadow:
+                0 9px 20px rgba(79,143,114,.22);
 
             transition: .2s;
         }
@@ -457,10 +486,6 @@ $error = $_GET['error'] ?? '';
             text-decoration: underline;
         }
 
-        .loading {
-            color: #89978f;
-        }
-
         @media (max-width: 850px) {
 
             body {
@@ -489,6 +514,7 @@ $error = $_GET['error'] ?? '';
 
             .mini-list {
                 display: grid;
+
                 grid-template-columns: 1fr 1fr;
             }
 
@@ -529,6 +555,7 @@ $error = $_GET['error'] ?? '';
 
             .mini-list {
                 grid-template-columns: 1fr;
+
                 margin-top: 23px;
             }
 
@@ -542,6 +569,7 @@ $error = $_GET['error'] ?? '';
 
             .form-row {
                 grid-template-columns: 1fr;
+
                 gap: 17px;
             }
 
@@ -549,6 +577,7 @@ $error = $_GET['error'] ?? '';
             select,
             textarea {
                 font-size: 14px;
+
                 padding: 12px;
             }
         }
@@ -655,9 +684,7 @@ $error = $_GET['error'] ?? '';
             autocomplete="off"
         >
 
-            <!-- =====================================
-                 AKUN
-            ====================================== -->
+            <!-- AKUN -->
 
             <div class="section-label">
                 Akun
@@ -719,9 +746,7 @@ $error = $_GET['error'] ?? '';
             </div>
 
 
-            <!-- =====================================
-                 SEKOLAH
-            ====================================== -->
+            <!-- SEKOLAH -->
 
             <div class="section-label">
                 Data Sekolah
@@ -763,41 +788,15 @@ $error = $_GET['error'] ?? '';
                             Pilih jenjang
                         </option>
 
-                        <option value="PAUD">
-                            PAUD
-                        </option>
-
-                        <option value="TK">
-                            TK
-                        </option>
-
-                        <option value="SD">
-                            SD
-                        </option>
-
-                        <option value="MI">
-                            MI
-                        </option>
-
-                        <option value="SMP">
-                            SMP
-                        </option>
-
-                        <option value="MTs">
-                            MTs
-                        </option>
-
-                        <option value="SMA">
-                            SMA
-                        </option>
-
-                        <option value="SMK">
-                            SMK
-                        </option>
-
-                        <option value="MA">
-                            MA
-                        </option>
+                        <option value="PAUD">PAUD</option>
+                        <option value="TK">TK</option>
+                        <option value="SD">SD</option>
+                        <option value="MI">MI</option>
+                        <option value="SMP">SMP</option>
+                        <option value="MTs">MTs</option>
+                        <option value="SMA">SMA</option>
+                        <option value="SMK">SMK</option>
+                        <option value="MA">MA</option>
 
                     </select>
 
@@ -823,17 +822,16 @@ $error = $_GET['error'] ?? '';
             </div>
 
 
-            <!-- =====================================
-                 WILAYAH
-            ====================================== -->
+            <!-- WILAYAH -->
 
             <div class="section-label">
                 Lokasi Sekolah
             </div>
 
             <div class="location-note">
-                Pilih wilayah secara berurutan. Kode wilayah akan
-                tersimpan otomatis sesuai kode administrasi desa.
+                Pilih provinsi, kabupaten/kota, kecamatan, lalu
+                desa/kelurahan. Kode wilayah desa akan tersimpan
+                otomatis.
             </div>
 
 
@@ -937,11 +935,12 @@ $error = $_GET['error'] ?? '';
 
 
             <!--
-                INI YANG AKAN DIKIRIM KE DATABASE.
+                KODE DESA DI SINI AKAN DIISI JAVASCRIPT.
 
                 Contoh:
                 32.05.10.2003
-                akan menjadi:
+
+                disimpan menjadi:
                 3205102003
             -->
 
@@ -982,41 +981,41 @@ $error = $_GET['error'] ?? '';
 
 /*
 |--------------------------------------------------------------------------
-| API WILAYAH
+| API EMSIFA V2
 |--------------------------------------------------------------------------
 |
-| Menggunakan kode administrasi terbaru.
+| V2 menggunakan kode wilayah administrasi bertingkat.
 |
-| Format:
+| Contoh:
 |
-| Provinsi       : 32
-| Kabupaten      : 32.05
-| Kecamatan      : 32.05.10
-| Desa           : 32.05.10.2003
-|
-| Ketika dikirim ke PHP:
-|
-| 32.05.10.2003
-|        ↓
-| 3205102003
+| Provinsi  : 32
+| Kabupaten : 32.05
+| Kecamatan : 32.05.10
+| Desa      : 32.05.10.2003
 |
 |--------------------------------------------------------------------------
 */
 
-const API = "https://wilayah.id/api";
+const API = "https://www.emsifa.com/api-wilayah-indonesia/v2";
 
 
-const provinsi  = document.getElementById("provinsi");
+const provinsi = document.getElementById("provinsi");
 const kabupaten = document.getElementById("kabupaten");
 const kecamatan = document.getElementById("kecamatan");
-const desa      = document.getElementById("desa");
+const desa = document.getElementById("desa");
 
 const kodeDesa = document.getElementById("kode_desa");
 
 
 /*
 |--------------------------------------------------------------------------
-| FUNGSI MEMBERSIHKAN KODE
+| BERSIHKAN KODE
+|--------------------------------------------------------------------------
+|
+| 32.05.10.2003
+|        ↓
+| 3205102003
+|
 |--------------------------------------------------------------------------
 */
 
@@ -1053,7 +1052,7 @@ function resetSelect(select, text) {
 
 /*
 |--------------------------------------------------------------------------
-| LOAD DATA API
+| AMBIL DATA API
 |--------------------------------------------------------------------------
 */
 
@@ -1068,27 +1067,20 @@ async function getWilayah(url) {
 
     if (!response.ok) {
         throw new Error(
-            "Gagal mengambil data wilayah (" + response.status + ")"
+            "Gagal mengambil data wilayah. HTTP " +
+            response.status
         );
     }
 
-    const result = await response.json();
+    const data = await response.json();
 
-    /*
-     * Wilayah.id mengembalikan:
-     *
-     * {
-     *   data: [...]
-     * }
-     */
-
-    return result.data || [];
+    return data;
 }
 
 
 /*
 |--------------------------------------------------------------------------
-| ISI SELECT
+| MASUKKAN DATA KE SELECT
 |--------------------------------------------------------------------------
 */
 
@@ -1104,23 +1096,29 @@ function fillSelect(select, data, placeholder) {
     select.appendChild(firstOption);
 
 
+    if (!Array.isArray(data)) {
+
+        throw new Error(
+            "Format data wilayah tidak valid."
+        );
+
+    }
+
+
     data.forEach(item => {
 
         const option = document.createElement("option");
 
         /*
-         * VALUE = KODE ADMINISTRASI
+         * EMSIFA V2:
          *
-         * Contoh desa:
+         * item.id
+         * item.name
          *
-         * 32.05.10.2003
-         *
-         * BUKAN ID BPS:
-         *
-         * 3205280010
+         * ID sudah berupa kode wilayah bertingkat.
          */
 
-        option.value = item.code;
+        option.value = item.id;
 
         option.textContent = item.name;
 
@@ -1143,14 +1141,16 @@ async function loadProvinsi() {
 
     try {
 
+        provinsi.disabled = true;
+
         provinsi.innerHTML =
             '<option value="">Memuat provinsi...</option>';
 
-        provinsi.disabled = true;
 
         const data = await getWilayah(
             `${API}/provinces.json`
         );
+
 
         fillSelect(
             provinsi,
@@ -1158,12 +1158,19 @@ async function loadProvinsi() {
             "Pilih provinsi"
         );
 
+
     } catch (error) {
 
-        console.error(error);
+        console.error(
+            "ERROR PROVINSI:",
+            error
+        );
+
 
         provinsi.innerHTML =
             '<option value="">Gagal memuat provinsi</option>';
+
+        provinsi.disabled = true;
 
     }
 
@@ -1176,63 +1183,77 @@ async function loadProvinsi() {
 |--------------------------------------------------------------------------
 */
 
-provinsi.addEventListener("change", async function () {
+provinsi.addEventListener(
+    "change",
+    async function () {
 
-    const kodeProvinsi = this.value;
+        const kodeProvinsi = this.value;
 
-    resetSelect(
-        kabupaten,
-        "Memuat kabupaten / kota..."
-    );
-
-    resetSelect(
-        kecamatan,
-        "Pilih kabupaten / kota terlebih dahulu"
-    );
-
-    resetSelect(
-        desa,
-        "Pilih kecamatan terlebih dahulu"
-    );
-
-    kodeDesa.value = "";
-
-
-    if (!kodeProvinsi) {
 
         resetSelect(
             kabupaten,
-            "Pilih provinsi terlebih dahulu"
+            "Memuat kabupaten / kota..."
         );
 
-        return;
-    }
-
-
-    try {
-
-        const data = await getWilayah(
-            `${API}/regencies/${kodeProvinsi}.json`
-        );
-
-        fillSelect(
-            kabupaten,
-            data,
-            "Pilih kabupaten / kota"
-        );
-
-    } catch (error) {
-
-        console.error(error);
 
         resetSelect(
-            kabupaten,
-            "Gagal memuat kabupaten / kota"
+            kecamatan,
+            "Pilih kabupaten / kota terlebih dahulu"
         );
 
-    }
 
-});
+        resetSelect(
+            desa,
+            "Pilih kecamatan terlebih dahulu"
+        );
+
+
+        kodeDesa.value = "";
+
+
+        if (!kodeProvinsi) {
+
+            resetSelect(
+                kabupaten,
+                "Pilih provinsi terlebih dahulu"
+            );
+
+            return;
+
+        }
+
+
+        try {
+
+            const data = await getWilayah(
+                `${API}/regencies/${kodeProvinsi}.json`
+            );
+
+
+            fillSelect(
+                kabupaten,
+                data,
+                "Pilih kabupaten / kota"
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "ERROR KABUPATEN:",
+                error
+            );
+
+
+            resetSelect(
+                kabupaten,
+                "Gagal memuat kabupaten / kota"
+            );
+
+        }
+
+    }
+);
 
 
 /*
@@ -1241,58 +1262,71 @@ provinsi.addEventListener("change", async function () {
 |--------------------------------------------------------------------------
 */
 
-kabupaten.addEventListener("change", async function () {
+kabupaten.addEventListener(
+    "change",
+    async function () {
 
-    const kodeKabupaten = this.value;
+        const kodeKabupaten = this.value;
 
-    resetSelect(
-        kecamatan,
-        "Memuat kecamatan..."
-    );
-
-    resetSelect(
-        desa,
-        "Pilih kecamatan terlebih dahulu"
-    );
-
-    kodeDesa.value = "";
-
-
-    if (!kodeKabupaten) {
 
         resetSelect(
             kecamatan,
-            "Pilih kabupaten / kota terlebih dahulu"
+            "Memuat kecamatan..."
         );
 
-        return;
-    }
-
-
-    try {
-
-        const data = await getWilayah(
-            `${API}/districts/${kodeKabupaten}.json`
-        );
-
-        fillSelect(
-            kecamatan,
-            data,
-            "Pilih kecamatan"
-        );
-
-    } catch (error) {
-
-        console.error(error);
 
         resetSelect(
-            kecamatan,
-            "Gagal memuat kecamatan"
+            desa,
+            "Pilih kecamatan terlebih dahulu"
         );
 
-    }
 
-});
+        kodeDesa.value = "";
+
+
+        if (!kodeKabupaten) {
+
+            resetSelect(
+                kecamatan,
+                "Pilih kabupaten / kota terlebih dahulu"
+            );
+
+            return;
+
+        }
+
+
+        try {
+
+            const data = await getWilayah(
+                `${API}/districts/${kodeKabupaten}.json`
+            );
+
+
+            fillSelect(
+                kecamatan,
+                data,
+                "Pilih kecamatan"
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "ERROR KECAMATAN:",
+                error
+            );
+
+
+            resetSelect(
+                kecamatan,
+                "Gagal memuat kecamatan"
+            );
+
+        }
+
+    }
+);
 
 
 /*
@@ -1301,53 +1335,65 @@ kabupaten.addEventListener("change", async function () {
 |--------------------------------------------------------------------------
 */
 
-kecamatan.addEventListener("change", async function () {
+kecamatan.addEventListener(
+    "change",
+    async function () {
 
-    const kodeKecamatan = this.value;
+        const kodeKecamatan = this.value;
 
-    resetSelect(
-        desa,
-        "Memuat desa / kelurahan..."
-    );
-
-    kodeDesa.value = "";
-
-
-    if (!kodeKecamatan) {
 
         resetSelect(
             desa,
-            "Pilih kecamatan terlebih dahulu"
+            "Memuat desa / kelurahan..."
         );
 
-        return;
+
+        kodeDesa.value = "";
+
+
+        if (!kodeKecamatan) {
+
+            resetSelect(
+                desa,
+                "Pilih kecamatan terlebih dahulu"
+            );
+
+            return;
+
+        }
+
+
+        try {
+
+            const data = await getWilayah(
+                `${API}/villages/${kodeKecamatan}.json`
+            );
+
+
+            fillSelect(
+                desa,
+                data,
+                "Pilih desa / kelurahan"
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "ERROR DESA:",
+                error
+            );
+
+
+            resetSelect(
+                desa,
+                "Gagal memuat desa / kelurahan"
+            );
+
+        }
+
     }
-
-
-    try {
-
-        const data = await getWilayah(
-            `${API}/villages/${kodeKecamatan}.json`
-        );
-
-        fillSelect(
-            desa,
-            data,
-            "Pilih desa / kelurahan"
-        );
-
-    } catch (error) {
-
-        console.error(error);
-
-        resetSelect(
-            desa,
-            "Gagal memuat desa / kelurahan"
-        );
-
-    }
-
-});
+);
 
 
 /*
@@ -1356,37 +1402,40 @@ kecamatan.addEventListener("change", async function () {
 |--------------------------------------------------------------------------
 */
 
-desa.addEventListener("change", function () {
+desa.addEventListener(
+    "change",
+    function () {
 
-    const kode = this.value;
-
-    /*
-     * API:
-     *
-     * 32.05.10.2003
-     *
-     * disimpan sebagai:
-     *
-     * 3205102003
-     */
-
-    kodeDesa.value = cleanKodeWilayah(kode);
-
-    console.log(
-        "Kode desa:",
-        kodeDesa.value
-    );
-
-});
+        const kode = this.value;
 
 
-/*
-|--------------------------------------------------------------------------
-| MULAI
-|--------------------------------------------------------------------------
-*/
+        /*
+         * Contoh:
+         *
+         * 32.05.10.2003
+         *
+         * menjadi:
+         *
+         * 3205102003
+         */
 
-loadProvinsi();
+        kodeDesa.value =
+            cleanKodeWilayah(kode);
+
+
+        console.log(
+            "Kode desa terpilih:",
+            kode
+        );
+
+
+        console.log(
+            "Kode desa untuk database:",
+            kodeDesa.value
+        );
+
+    }
+);
 
 
 /*
@@ -1395,43 +1444,56 @@ loadProvinsi();
 |--------------------------------------------------------------------------
 */
 
-document.querySelector("form").addEventListener("submit", function (event) {
+document
+    .querySelector("form")
+    .addEventListener(
+        "submit",
+        function (event) {
 
-    const kode = kodeDesa.value.trim();
-
-    if (!kode) {
-
-        event.preventDefault();
-
-        alert(
-            "Silakan pilih desa / kelurahan terlebih dahulu."
-        );
-
-        desa.focus();
-
-        return;
-    }
+            const kode =
+                kodeDesa.value.trim();
 
 
-    /*
-     * Kode desa administrasi seharusnya
-     * terdiri dari 10 digit.
-     */
+            if (!kode) {
 
-    if (!/^\d{10}$/.test(kode)) {
+                event.preventDefault();
 
-        event.preventDefault();
+                alert(
+                    "Silakan pilih desa / kelurahan terlebih dahulu."
+                );
 
-        alert(
-            "Kode wilayah desa tidak valid. Silakan pilih desa / kelurahan kembali."
-        );
+                desa.focus();
 
-        desa.focus();
+                return;
 
-        return;
-    }
+            }
 
-});
+
+            if (!/^\d{10}$/.test(kode)) {
+
+                event.preventDefault();
+
+                alert(
+                    "Kode wilayah desa tidak valid. Silakan pilih desa / kelurahan kembali."
+                );
+
+                desa.focus();
+
+                return;
+
+            }
+
+        }
+    );
+
+
+/*
+|--------------------------------------------------------------------------
+| MULAI LOAD PROVINSI
+|--------------------------------------------------------------------------
+*/
+
+loadProvinsi();
 
 </script>
 
