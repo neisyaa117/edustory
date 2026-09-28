@@ -1072,11 +1072,19 @@ async function getWilayah(url) {
         );
     }
 
-    const data = await response.json();
+    const result = await response.json();
 
-    return data;
+    // EMSIFA V2 mengembalikan:
+    // { data: [...], meta: {...} }
+
+    if (!result || !Array.isArray(result.data)) {
+        throw new Error(
+            "Format data wilayah tidak valid."
+        );
+    }
+
+    return result.data;
 }
-
 
 /*
 |--------------------------------------------------------------------------
