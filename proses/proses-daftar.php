@@ -15,6 +15,12 @@ $nama = trim($_POST['nama'] ?? '');
 $email = trim($_POST['email'] ?? '');
 $password = $_POST['password'] ?? '';
 
+$daftarPeran = ['Guru', 'Kepala Sekolah', 'Tenaga Kependidikan', 'Siswa', 'Alumni', 'Orang Tua / Wali', 'Lainnya'];
+$peran = trim($_POST['peran'] ?? '');
+if (!in_array($peran, $daftarPeran, true)) {
+    $peran = 'Guru';
+}
+
 $provinsi = trim($_POST['provinsi'] ?? '');
 $kabupaten = trim($_POST['kabupaten'] ?? '');
 $kecamatan = trim($_POST['kecamatan'] ?? '');
@@ -142,14 +148,14 @@ try {
     |--------------------------------------------------------------------------
     */
 
+    /* Kolom "peran" ditambahkan belakangan; pakai bila sudah ada di database. */
+    $adaPeran = $koneksi->query("SHOW COLUMNS FROM users LIKE 'peran'");
+    $adaPeran = $adaPeran && $adaPeran->num_rows > 0;
+
     $stmtUser = $koneksi->prepare(
-        "INSERT INTO users
-        (
-            nama,
-            email,
-            password
-        )
-        VALUES (?, ?, ?)"
+        $adaPeran
+            ? "INSERT INTO users (nama, peran, email, password) VALUES (?, ?, ?, ?)"
+            : "INSERT INTO users (nama, email, password) VALUES (?, ?, ?)"
     );
 
 
@@ -160,12 +166,11 @@ try {
     }
 
 
-    $stmtUser->bind_param(
-        "sss",
-        $nama,
-        $email,
-        $password_hash
-    );
+    if ($adaPeran) {
+        $stmtUser->bind_param("ssss", $nama, $peran, $email, $password_hash);
+    } else {
+        $stmtUser->bind_param("sss", $nama, $email, $password_hash);
+    }
 
 
     if (!$stmtUser->execute()) {

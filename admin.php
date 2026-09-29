@@ -31,6 +31,9 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST' && isset($_POST['sandi'])) {
     $salah = true;
 }
 
+$adaPeran = ($r = $koneksi->query("SHOW COLUMNS FROM users LIKE 'peran'")) && $r->num_rows > 0;
+$kolPeran = $adaPeran ? 'u.peran' : 'NULL';
+
 $css = '<style>
 body{font-family:Nunito,Arial,sans-serif;margin:0;background:#f6f4ee;color:#1d2b24}
 .w{max-width:1200px;margin:0 auto;padding:16px}
@@ -63,7 +66,7 @@ function angka(mysqli $k, string $sql): int
 
 /* ----- Detail satu artikel ----- */
 if (isset($_GET['artikel'])) {
-    $st = $koneksi->prepare('SELECT a.*, u.nama AS nama_guru, u.email, s.nama_sekolah,
+    $st = $koneksi->prepare('SELECT a.*, u.nama AS nama_guru, u.email, ' . $kolPeran . ' AS peran, s.nama_sekolah,
         (SELECT COUNT(*) FROM artikel_gambar g WHERE g.artikel_id = a.id) AS jml_foto
         FROM artikel a LEFT JOIN users u ON u.id = a.user_id LEFT JOIN sekolah s ON s.id = a.sekolah_id WHERE a.id = ?');
     $id = (int) $_GET['artikel'];
@@ -73,7 +76,7 @@ if (isset($_GET['artikel'])) {
     echo $kepala . '<p><a href="admin.php">&larr; Kembali</a></p>';
     if (!$a) { exit('<p>Artikel tidak ditemukan.</p></div></body></html>'); }
     echo '<h1>' . e($a['judul'] ?: '(belum ada judul)') . '</h1><p>' . e($a['jenis_nama']) . ' &middot; ' . e($a['status'])
-       . ' &middot; ' . e($a['dibuat_pada']) . '<br>Guru: ' . e($a['nama_guru']) . ' (' . e($a['email']) . ') &middot; '
+       . ' &middot; ' . e($a['dibuat_pada']) . '<br>Penulis: ' . e($a['nama_guru']) . ' [' . e($a['peran'] ?: '-') . ']' . ' (' . e($a['email']) . ') &middot; '
        . e($a['nama_sekolah']) . ' &middot; ' . (int) $a['jml_foto'] . ' foto</p>';
     if ($a['pesan_error']) { echo '<p class="err">Error: ' . e($a['pesan_error']) . '</p>'; }
     echo '<h2>Isian yang dikirim</h2><div class="t"><table>';
@@ -88,7 +91,7 @@ if (isset($_GET['artikel'])) {
 $q = trim((string) ($_GET['q'] ?? ''));
 $like = '%' . $q . '%';
 
-$st = $koneksi->prepare('SELECT u.id, u.nama, u.email, u.dibuat_pada, s.nama_sekolah, s.jenjang, s.desa, s.kecamatan, s.kabupaten, s.provinsi, s.kode_desa,
+$st = $koneksi->prepare('SELECT u.id, u.nama, ' . $kolPeran . ' AS peran, u.email, u.dibuat_pada, s.nama_sekolah, s.jenjang, s.desa, s.kecamatan, s.kabupaten, s.provinsi, s.kode_desa,
     (SELECT COUNT(*) FROM artikel a WHERE a.user_id = u.id) AS jml
     FROM users u LEFT JOIN sekolah s ON s.user_id = u.id
     WHERE ? = "" OR u.nama LIKE ? OR u.email LIKE ? OR s.nama_sekolah LIKE ? OR s.kabupaten LIKE ?
@@ -97,7 +100,7 @@ $st->bind_param('sssss', $q, $like, $like, $like, $like);
 $st->execute();
 $guru = $st->get_result()->fetch_all(MYSQLI_ASSOC);
 
-$st = $koneksi->prepare('SELECT a.id, a.judul, a.jenis_nama, a.status, a.dibuat_pada, u.nama AS guru, s.nama_sekolah
+$st = $koneksi->prepare('SELECT a.id, a.judul, a.jenis_nama, a.status, a.dibuat_pada, u.nama AS guru, ' . $kolPeran . ' AS peran, s.nama_sekolah
     FROM artikel a LEFT JOIN users u ON u.id = a.user_id LEFT JOIN sekolah s ON s.id = a.sekolah_id
     WHERE ? = "" OR a.judul LIKE ? OR a.jenis_nama LIKE ? OR u.nama LIKE ? OR s.nama_sekolah LIKE ?
     ORDER BY a.id DESC LIMIT 300');
@@ -106,22 +109,22 @@ $st->execute();
 $artikel = $st->get_result()->fetch_all(MYSQLI_ASSOC);
 
 echo $kepala . '<div class="bar"><h1>Admin EduStory</h1><a href="admin.php?keluar=1">Keluar</a></div>'
-   . '<div class="kartu"><div><b>' . angka($koneksi, 'SELECT COUNT(*) FROM users') . '</b>Akun guru</div>'
+   . '<div class="kartu"><div><b>' . angka($koneksi, 'SELECT COUNT(*) FROM users') . '</b>Akun</div>'
    . '<div><b>' . angka($koneksi, 'SELECT COUNT(*) FROM sekolah') . '</b>Sekolah</div>'
    . '<div><b>' . angka($koneksi, 'SELECT COUNT(*) FROM artikel') . '</b>Artikel</div>'
    . '<div><b>' . angka($koneksi, "SELECT COUNT(*) FROM artikel WHERE status='selesai'") . '</b>Selesai</div>'
    . '<div><b>' . angka($koneksi, "SELECT COUNT(*) FROM artikel WHERE status='gagal'") . '</b>Gagal</div></div>'
    . '<form style="margin:14px 0"><input type="text" name="q" value="' . e($q) . '" placeholder="Cari nama, email, sekolah, kabupaten, judul"> <button>Cari</button></form>'
-   . '<h2>Akun dan sekolah</h2><div class="t"><table><tr><th>Guru</th><th>Email</th><th>Sekolah</th><th>Wilayah</th><th>Kode desa</th><th>Artikel</th><th>Daftar</th></tr>';
+   . '<h2>Akun dan sekolah</h2><div class="t"><table><tr><th>Nama</th><th>Sebagai</th><th>Email</th><th>Sekolah</th><th>Wilayah</th><th>Kode desa</th><th>Artikel</th><th>Daftar</th></tr>';
 foreach ($guru as $g) {
-    echo '<tr><td>' . e($g['nama']) . '</td><td>' . e($g['email']) . '</td><td>' . e($g['nama_sekolah']) . ' ' . e($g['jenjang'])
+    echo '<tr><td>' . e($g['nama']) . '</td><td>' . e($g['peran'] ?: '-') . '</td><td>' . e($g['email']) . '</td><td>' . e($g['nama_sekolah']) . ' ' . e($g['jenjang'])
        . '</td><td>' . e(implode(', ', array_filter([$g['desa'], $g['kecamatan'], $g['kabupaten'], $g['provinsi']]))) . '</td><td>'
        . e($g['kode_desa']) . '</td><td>' . (int) $g['jml'] . '</td><td>' . e($g['dibuat_pada']) . '</td></tr>';
 }
-echo '</table></div><h2>Semua artikel</h2><div class="t"><table><tr><th>#</th><th>Judul</th><th>Jenis</th><th>Guru</th><th>Sekolah</th><th>Status</th><th>Dibuat</th></tr>';
+echo '</table></div><h2>Semua artikel</h2><div class="t"><table><tr><th>#</th><th>Judul</th><th>Jenis</th><th>Penulis</th><th>Sebagai</th><th>Sekolah</th><th>Status</th><th>Dibuat</th></tr>';
 foreach ($artikel as $a) {
     echo '<tr><td>' . (int) $a['id'] . '</td><td><a href="admin.php?artikel=' . (int) $a['id'] . '">' . e($a['judul'] ?: '(belum ada judul)')
-       . '</a></td><td>' . e($a['jenis_nama']) . '</td><td>' . e($a['guru']) . '</td><td>' . e($a['nama_sekolah'])
+       . '</a></td><td>' . e($a['jenis_nama']) . '</td><td>' . e($a['guru']) . '</td><td>' . e($a['peran'] ?: '-') . '</td><td>' . e($a['nama_sekolah'])
        . '</td><td>' . e($a['status']) . '</td><td>' . e($a['dibuat_pada']) . '</td></tr>';
 }
 echo '</table></div></div></body></html>';

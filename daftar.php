@@ -691,6 +691,26 @@ $error = $_GET['error'] ?? '';
                 Akun
             </div>
 
+            <div class="field">
+
+                <label>
+                    Mendaftar sebagai
+                    <span class="required">*</span>
+                </label>
+
+                <select name="peran" required>
+                    <option value="">Pilih peran</option>
+                    <option value="Guru">Guru</option>
+                    <option value="Kepala Sekolah">Kepala Sekolah</option>
+                    <option value="Tenaga Kependidikan">Tenaga Kependidikan</option>
+                    <option value="Siswa">Siswa</option>
+                    <option value="Alumni">Alumni</option>
+                    <option value="Orang Tua / Wali">Orang Tua / Wali</option>
+                    <option value="Lainnya">Lainnya</option>
+                </select>
+
+            </div>
+
             <div class="form-row">
 
                 <div class="field">

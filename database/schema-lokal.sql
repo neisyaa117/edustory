@@ -17,6 +17,7 @@ USE edustory;
 CREATE TABLE IF NOT EXISTS users (
     id         INT NOT NULL AUTO_INCREMENT,
     nama       VARCHAR(150) NOT NULL,
+    peran      VARCHAR(40) NULL,
     email      VARCHAR(190) NOT NULL,
     password   VARCHAR(255) NOT NULL,
     dibuat_pada DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
