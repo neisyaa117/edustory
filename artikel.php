@@ -139,7 +139,7 @@ $judulHalaman = $selesai ? $artikel['judul'] : 'Artikel ' . $artikel['jenis_nama
 
                 <figure class="foto-utama">
                     <img
-                        src="gambar.php?t=<?= e($fotoDaftar[0]['token']) ?>"
+                        src="gambar.php?t=<?= e($fotoDaftar[0]['token']) ?>&amp;i=1"
                         alt="Foto pendukung artikel <?= e($artikel['judul']) ?>"
                     >
                 </figure>
@@ -158,7 +158,7 @@ $judulHalaman = $selesai ? $artikel['judul'] : 'Artikel ' . $artikel['jenis_nama
                     <?php foreach (array_slice($fotoDaftar, 1) as $urut => $foto): ?>
                         <figure>
                             <img
-                                src="gambar.php?t=<?= e($foto['token']) ?>"
+                                src="gambar.php?t=<?= e($foto['token']) ?>&amp;i=1"
                                 alt="Foto pendukung <?= $urut + 2 ?> artikel <?= e($artikel['judul']) ?>"
                                 loading="lazy"
                             >
@@ -197,7 +197,7 @@ $judulHalaman = $selesai ? $artikel['judul'] : 'Artikel ' . $artikel['jenis_nama
                     <ul class="aksi-foto">
                         <?php foreach ($fotoDaftar as $urut => $foto): ?>
                             <li>
-                                <a href="gambar.php?t=<?= e($foto['token']) ?>&amp;unduh=1" download>
+                                <a href="gambar.php?t=<?= e($foto['token']) ?>&amp;i=1&amp;unduh=1" download>
                                     Unduh foto <?= $urut + 1 ?>
                                 </a>
                             </li>
