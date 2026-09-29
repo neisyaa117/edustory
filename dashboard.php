@@ -73,6 +73,7 @@ $jenisPertama = array_key_first($daftarJenis);
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/artikel.css">
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
 </head>
 
 
@@ -192,7 +193,7 @@ $jenisPertama = array_key_first($daftarJenis);
                         tabindex="<?= $slug === $jenisPertama ? '0' : '-1' ?>"
                         data-target="<?= e($slug) ?>"
                     >
-                        <span class="pilih-ikon <?= e($j['warna']) ?>"><?= $j['ikon'] ?></span>
+                        <span class="pilih-ikon <?= e($j['warna']) ?>"><i class="fa-solid <?= e($j['ikon']) ?>" aria-hidden="true"></i></span>
 
                         <span class="pilih-teks">
                             <span class="pilih-nama"><?= e($j['nama']) ?></span>

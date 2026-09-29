@@ -36,7 +36,7 @@ function tampilkanField(array $f, $nilaiLama): void
     $wajib  = !empty($f['wajib']);
     $petunjuk = $f['placeholder'] ?? '';
 
-    echo '<div class="form-group">';
+    echo '<div class="form-group"><div class="label-baris">';
 
     if ($tipe === 'pilihan' || $tipe === 'banyak') {
         echo '<label id="' . e($id) . '-label">' . e($f['label']);
@@ -51,7 +51,11 @@ function tampilkanField(array $f, $nilaiLama): void
     echo '</label>';
 
     if (!empty($f['bantuan'])) {
-        echo '<p class="bantuan">' . e($f['bantuan']) . '</p>';
+        echo '<button type="button" class="tanya" aria-expanded="false" aria-label="Lihat penjelasan">'
+           . '<i class="fa-regular fa-circle-question" aria-hidden="true"></i></button></div>'
+           . '<p class="bantuan tanya-isi" hidden>' . e($f['bantuan']) . '</p>';
+    } else {
+        echo '</div>';
     }
 
     switch ($tipe) {
@@ -138,6 +142,8 @@ function tampilkanField(array $f, $nilaiLama): void
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/artikel.css">
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="assets/css/tanya.css">
 </head>
 
 
@@ -165,7 +171,7 @@ function tampilkanField(array $f, $nilaiLama): void
 
     <div class="profile-intro">
 
-        <div class="profile-badge"><?= $jenis['ikon'] ?></div>
+        <div class="profile-badge"><i class="fa-solid <?= e($jenis['ikon']) ?>" aria-hidden="true"></i></div>
 
         <h1><?= e($jenis['nama']) ?></h1>
 
@@ -203,8 +209,13 @@ function tampilkanField(array $f, $nilaiLama): void
                         <span><?= str_pad((string) ($urut + 1), 2, '0', STR_PAD_LEFT) ?></span>
 
                         <div>
-                            <h2><?= e($bagian['judul']) ?></h2>
-                            <p><?= e($bagian['info']) ?></p>
+                            <div class="label-baris">
+                                <h2><?= e($bagian['judul']) ?></h2>
+                                <button type="button" class="tanya" aria-expanded="false" aria-label="Lihat penjelasan">
+                                    <i class="fa-regular fa-circle-question" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                            <p class="tanya-isi" hidden><?= e($bagian['info']) ?></p>
                         </div>
 
                     </div>
@@ -288,6 +299,7 @@ function tampilkanField(array $f, $nilaiLama): void
 
 <script src="assets/js/buat.js"></script>
 
+<script src="assets/js/tanya.js"></script>
 </body>
 
 </html>

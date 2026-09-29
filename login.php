@@ -22,6 +22,7 @@ if (isset($_SESSION['user_id'])) {
     <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/password.css">
 
 </head>
 
@@ -133,6 +134,8 @@ if (isset($_SESSION['user_id'])) {
     <p>© <?php echo date('Y'); ?> EduStory</p>
 </footer>
 
+
+<script src="assets/js/password.js"></script>
 
 </body>
 </html>

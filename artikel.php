@@ -174,6 +174,7 @@ $judulHalaman = $selesai ? $artikel['judul'] : 'Artikel ' . $artikel['jenis_nama
         <aside class="aksi" aria-label="Pindahkan artikel">
 
             <h2>Pindahkan ke klipaa</h2>
+            <p class="aksi-catatan">Untuk sementara, salin dulu lalu tempel di klipaa. Sambungan otomatis belum tersedia.</p>
 
             <div class="aksi-tombol">
 

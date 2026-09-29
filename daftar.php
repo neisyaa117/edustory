@@ -22,6 +22,7 @@ $error = $_GET['error'] ?? '';
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
     <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/password.css">
 
     <style>
 
@@ -1504,6 +1505,8 @@ document
 loadProvinsi();
 
 </script>
+
+<script src="assets/js/password.js"></script>
 
 </body>
 </html>

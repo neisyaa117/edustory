@@ -1,0 +1,18 @@
+/* Penjelasan singkat: ikon "?" di samping judul, isi muncul saat diketuk */
+.label-baris { display: flex; align-items: center; gap: 6px; }
+.label-baris > label, .label-baris > h2 { margin: 0; }
+.tanya {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 26px; height: 26px; padding: 0; flex: none;
+    background: transparent; border: 0; border-radius: 50%;
+    color: #7a877f; font-size: 16px; cursor: pointer; transition: .2s;
+}
+.tanya:hover, .tanya:focus-visible, .tanya[aria-expanded="true"] {
+    color: var(--green, #4f8f72); background: rgba(79,143,114,.12); outline: none;
+}
+.tanya-isi[hidden] { display: none; }
+.form-group .tanya-isi, .form-section-title .tanya-isi {
+    margin: 6px 0 8px; padding: 9px 12px;
+    background: #f3f8f5; border: 1px solid #d5e5dc; border-radius: 8px;
+    color: var(--ink-soft, #55655c); font-size: 12.5px; font-weight: 600; line-height: 1.5;
+}
