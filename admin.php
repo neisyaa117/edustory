@@ -35,26 +35,62 @@ $adaPeran = ($r = $koneksi->query("SHOW COLUMNS FROM users LIKE 'peran'")) && $r
 $kolPeran = $adaPeran ? 'u.peran' : 'NULL';
 
 $css = '<style>
-body{font-family:Nunito,Arial,sans-serif;margin:0;background:#f6f4ee;color:#1d2b24}
-.w{max-width:1200px;margin:0 auto;padding:16px}
-h1{font-size:22px;margin:0}h2{font-size:17px;margin:26px 0 8px}
-.bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:12px}
-.kartu{display:flex;flex-wrap:wrap;gap:10px}.kartu div{background:#fff;border:1px solid #ddd;border-radius:10px;padding:10px 16px}
-.kartu b{display:block;font-size:22px}
-.t{overflow-x:auto;background:#fff;border:1px solid #ddd;border-radius:10px}
-table{border-collapse:collapse;width:100%;font-size:13px}th,td{padding:8px 10px;border-bottom:1px solid #eee;text-align:left;vertical-align:top}
-th{background:#eef5f1;white-space:nowrap}a{color:#2f6b4f}
-input[type=text],input[type=password]{padding:8px 10px;border:1px solid #bbb;border-radius:8px}
-button{padding:8px 14px;border:0;border-radius:8px;background:#4f8f72;color:#fff;cursor:pointer}
-pre{white-space:pre-wrap;background:#fff;border:1px solid #ddd;border-radius:10px;padding:14px;font:inherit;line-height:1.6}
-.err{color:#b3261e}
+:root{--hijau:#3f7f62;--hijau-tua:#2b5a45;--hijau-muda:#e6f1ea;--kertas:#fffdf8;--latar:#f3f0e8;--garis:#e3ded2;--teks:#1f2d26;--redup:#6f7c74}
+*{box-sizing:border-box}
+body{margin:0;background:var(--latar);color:var(--teks);font:15px/1.5 Nunito,Arial,sans-serif}
+h1,h2,h3{font-family:"Baloo 2",Nunito,sans-serif;margin:0}
+a{color:var(--hijau-tua)}
+.atas{background:var(--hijau-tua);color:#fff}
+.atas .w{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:14px;padding-bottom:14px}
+.atas h1{font-size:22px;font-weight:700}.atas small{display:block;font:500 12px Nunito;opacity:.75}
+.atas a{color:#fff;text-decoration:none;border:1px solid rgba(255,255,255,.4);padding:6px 14px;border-radius:999px;font-weight:700;font-size:13px}
+.w{max-width:1200px;margin:0 auto;padding:18px 16px}
+.kartu{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:-6px}
+.kartu div{background:var(--kertas);border:1px solid var(--garis);border-left:5px solid var(--hijau);border-radius:12px;padding:12px 14px;font-size:13px;color:var(--redup);font-weight:700}
+.kartu b{display:block;font:700 30px/1.1 "Baloo 2";color:var(--teks)}
+.kartu .kuning{border-left-color:#d9a441}.kartu .merah{border-left-color:#c8553d}.kartu .biru{border-left-color:#4a8fb5}
+.alat{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;margin:20px 0 12px}
+.tab{display:flex;gap:6px;background:var(--kertas);border:1px solid var(--garis);border-radius:999px;padding:4px}
+.tab button{border:0;background:transparent;padding:8px 18px;border-radius:999px;font:700 14px Nunito;color:var(--redup);cursor:pointer}
+.tab button.aktif{background:var(--hijau);color:#fff}
+.cari{display:flex;gap:8px;flex:1;max-width:440px}
+.cari input{flex:1;min-width:0;padding:10px 14px;border:1px solid var(--garis);border-radius:999px;background:var(--kertas);font:inherit}
+button.tombol,.cari button{padding:10px 18px;border:0;border-radius:999px;background:var(--hijau);color:#fff;font:700 14px Nunito;cursor:pointer}
+.t{background:var(--kertas);border:1px solid var(--garis);border-radius:14px;overflow:hidden}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th{background:var(--hijau-muda);color:var(--hijau-tua);text-align:left;padding:11px 14px;font-weight:800;white-space:nowrap}
+td{padding:11px 14px;border-top:1px solid var(--garis);vertical-align:middle}
+tr:hover td{background:#faf8f1}
+.orang{display:flex;align-items:center;gap:10px;font-weight:700}
+.av{flex:none;width:34px;height:34px;border-radius:50%;background:var(--hijau-muda);color:var(--hijau-tua);display:grid;place-items:center;font:700 14px "Baloo 2"}
+.redup{color:var(--redup);font-size:13px}
+.pil{display:inline-block;padding:2px 10px;border-radius:999px;font-size:12px;font-weight:800;background:#eee;color:#555;white-space:nowrap}
+.pil.selesai{background:#dcf0e3;color:#22623f}.pil.menulis{background:#fbefcf;color:#8a6412}.pil.gagal{background:#f9dcd5;color:#a13b26}
+.pil.peran{background:#e4eef6;color:#2d5f82}
+.kode{font-family:ui-monospace,Consolas,monospace;font-size:12.5px;background:#f0ede3;padding:2px 6px;border-radius:6px}
+.kosong{padding:28px;text-align:center;color:var(--redup)}
+.masuk{max-width:360px;margin:12vh auto;background:var(--kertas);border:1px solid var(--garis);border-radius:16px;padding:26px}
+.masuk input{width:100%;padding:11px 14px;border:1px solid var(--garis);border-radius:10px;margin:14px 0 10px;font:inherit}
+.masuk .tombol{width:100%;border-radius:10px}.err{color:#b3261e;font-weight:700}
+.detail{display:grid;gap:14px;margin-top:14px}
+pre{white-space:pre-wrap;background:var(--kertas);border:1px solid var(--garis);border-radius:14px;padding:18px;font:inherit;line-height:1.75;margin:0}
+@media(max-width:760px){
+.kartu{grid-template-columns:repeat(2,1fr)}.kartu div:last-child{grid-column:span 2}
+.cari{max-width:none;flex-basis:100%}
+table,tbody,tr,td{display:block}tr:first-child{display:none}
+tr{padding:10px 14px;border-top:1px solid var(--garis)}tr:nth-child(2){border-top:0}
+td{border:0;padding:3px 0;display:flex;gap:10px;justify-content:space-between;text-align:right}
+td::before{content:attr(data-l);color:var(--redup);font-weight:700;font-size:12px;text-align:left;flex:none}
+tr:hover td{background:none}}
 </style>';
-$kepala = '<!DOCTYPE html><html lang="id"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>Admin EduStory</title>' . $css . '</head><body><div class="w">';
+function lencana(string $status): string { return '<span class="pil ' . e($status) . '">' . e($status) . '</span>'; }
+function inisial(?string $nama): string { return e(mb_strtoupper(mb_substr(trim((string) $nama) ?: '?', 0, 1))); }
+$kepala = '<!DOCTYPE html><html lang="id"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>Admin EduStory</title><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">' . $css . '</head><body>';
 
 if (empty($_SESSION['admin'])) {
-    echo $kepala . '<h1>Admin EduStory</h1><form method="post" style="margin-top:14px">'
-       . '<input type="password" name="sandi" placeholder="Password admin" autofocus required> <button>Masuk</button></form>'
-       . ($salah ? '<p class="err">Password salah.</p>' : '') . '</div></body></html>';
+    echo $kepala . '<form method="post" class="masuk"><h1>Admin EduStory</h1><span class="redup">Khusus pengelola</span>'
+       . '<input type="password" name="sandi" placeholder="Password admin" autofocus required><button class="tombol">Masuk</button>'
+       . ($salah ? '<p class="err">Password salah.</p>' : '') . '</form></body></html>';
     exit;
 }
 
@@ -73,17 +109,18 @@ if (isset($_GET['artikel'])) {
     $st->bind_param('i', $id);
     $st->execute();
     $a = $st->get_result()->fetch_assoc();
-    echo $kepala . '<p><a href="admin.php">&larr; Kembali</a></p>';
+    echo $kepala . '<div class="atas"><div class="w"><h1>Admin EduStory<small>Detail artikel</small></h1><a href="admin.php">&larr; Kembali</a></div></div><div class="w">';
     if (!$a) { exit('<p>Artikel tidak ditemukan.</p></div></body></html>'); }
-    echo '<h1>' . e($a['judul'] ?: '(belum ada judul)') . '</h1><p>' . e($a['jenis_nama']) . ' &middot; ' . e($a['status'])
-       . ' &middot; ' . e($a['dibuat_pada']) . '<br>Penulis: ' . e($a['nama_guru']) . ' [' . e($a['peran'] ?: '-') . ']' . ' (' . e($a['email']) . ') &middot; '
-       . e($a['nama_sekolah']) . ' &middot; ' . (int) $a['jml_foto'] . ' foto</p>';
+    echo '<h2 style="font-size:26px">' . e($a['judul'] ?: '(belum ada judul)') . '</h2><p>' . lencana($a['status'])
+       . ' <span class="pil peran">' . e($a['jenis_nama']) . '</span> <span class="redup">' . e($a['dibuat_pada']) . '</span></p>'
+       . '<p><b>' . e($a['nama_guru']) . '</b> <span class="pil peran">' . e($a['peran'] ?: '-') . '</span> <span class="redup">' . e($a['email'])
+       . ' &middot; ' . e($a['nama_sekolah']) . ' &middot; ' . (int) $a['jml_foto'] . ' foto</span></p>';
     if ($a['pesan_error']) { echo '<p class="err">Error: ' . e($a['pesan_error']) . '</p>'; }
-    echo '<h2>Isian yang dikirim</h2><div class="t"><table>';
+    echo '<div class="detail"><h3>Isian yang dikirim</h3><div class="t"><table><tr><th>Isian</th><th>Isi</th></tr>';
     foreach ((json_decode((string) $a['input_json'], true) ?: []) as $k => $v) {
-        echo '<tr><th>' . e($k) . '</th><td>' . e(is_array($v) ? implode(', ', $v) : $v) . '</td></tr>';
+        echo '<tr><td data-l="Isian" style="width:30%;font-weight:700">' . e($k) . '</td><td data-l="Isi">' . e(is_array($v) ? implode(', ', $v) : $v) . '</td></tr>';
     }
-    echo '</table></div><h2>Hasil artikel</h2><pre>' . e($a['isi'] ?: '(kosong)') . '</pre></div></body></html>';
+    echo '</table></div><h3>Hasil artikel</h3><pre>' . e($a['isi'] ?: '(kosong)') . '</pre></div></div></body></html>';
     exit;
 }
 
@@ -108,23 +145,30 @@ $st->bind_param('sssss', $q, $like, $like, $like, $like);
 $st->execute();
 $artikel = $st->get_result()->fetch_all(MYSQLI_ASSOC);
 
-echo $kepala . '<div class="bar"><h1>Admin EduStory</h1><a href="admin.php?keluar=1">Keluar</a></div>'
-   . '<div class="kartu"><div><b>' . angka($koneksi, 'SELECT COUNT(*) FROM users') . '</b>Akun</div>'
-   . '<div><b>' . angka($koneksi, 'SELECT COUNT(*) FROM sekolah') . '</b>Sekolah</div>'
-   . '<div><b>' . angka($koneksi, 'SELECT COUNT(*) FROM artikel') . '</b>Artikel</div>'
-   . '<div><b>' . angka($koneksi, "SELECT COUNT(*) FROM artikel WHERE status='selesai'") . '</b>Selesai</div>'
-   . '<div><b>' . angka($koneksi, "SELECT COUNT(*) FROM artikel WHERE status='gagal'") . '</b>Gagal</div></div>'
-   . '<form style="margin:14px 0"><input type="text" name="q" value="' . e($q) . '" placeholder="Cari nama, email, sekolah, kabupaten, judul"> <button>Cari</button></form>'
-   . '<h2>Akun dan sekolah</h2><div class="t"><table><tr><th>Nama</th><th>Sebagai</th><th>Email</th><th>Sekolah</th><th>Wilayah</th><th>Kode desa</th><th>Artikel</th><th>Daftar</th></tr>';
+$n = fn(string $sql) => angka($koneksi, $sql);
+echo $kepala . '<div class="atas"><div class="w"><h1>Admin EduStory<small>Semua data yang masuk, hanya baca</small></h1><a href="admin.php?keluar=1">Keluar</a></div></div><div class="w">'
+   . '<div class="kartu"><div>Akun<b>' . $n('SELECT COUNT(*) FROM users') . '</b></div>'
+   . '<div class="biru">Sekolah<b>' . $n('SELECT COUNT(*) FROM sekolah') . '</b></div>'
+   . '<div class="kuning">Artikel<b>' . $n('SELECT COUNT(*) FROM artikel') . '</b></div>'
+   . '<div>Selesai<b>' . $n("SELECT COUNT(*) FROM artikel WHERE status='selesai'") . '</b></div>'
+   . '<div class="merah">Gagal<b>' . $n("SELECT COUNT(*) FROM artikel WHERE status='gagal'") . '</b></div></div>'
+   . '<div class="alat"><div class="tab"><button class="aktif" data-tab="akun">Akun (' . count($guru) . ')</button><button data-tab="artikel">Artikel (' . count($artikel) . ')</button></div>'
+   . '<form class="cari"><input type="text" name="q" value="' . e($q) . '" placeholder="Cari nama, email, sekolah, kabupaten, judul"><button>Cari</button></form></div>'
+   . '<div class="t" id="akun"><table><tr><th>Nama</th><th>Sebagai</th><th>Sekolah</th><th>Wilayah</th><th>Kode desa</th><th>Artikel</th><th>Daftar</th></tr>';
 foreach ($guru as $g) {
-    echo '<tr><td>' . e($g['nama']) . '</td><td>' . e($g['peran'] ?: '-') . '</td><td>' . e($g['email']) . '</td><td>' . e($g['nama_sekolah']) . ' ' . e($g['jenjang'])
-       . '</td><td>' . e(implode(', ', array_filter([$g['desa'], $g['kecamatan'], $g['kabupaten'], $g['provinsi']]))) . '</td><td>'
-       . e($g['kode_desa']) . '</td><td>' . (int) $g['jml'] . '</td><td>' . e($g['dibuat_pada']) . '</td></tr>';
+    echo '<tr><td data-l="Nama"><div class="orang"><span class="av">' . inisial($g['nama']) . '</span><span>' . e($g['nama']) . '<br><span class="redup">' . e($g['email']) . '</span></span></div></td>'
+       . '<td data-l="Sebagai"><span class="pil peran">' . e($g['peran'] ?: '-') . '</span></td>'
+       . '<td data-l="Sekolah">' . e($g['nama_sekolah']) . ' <span class="redup">' . e($g['jenjang']) . '</span></td>'
+       . '<td data-l="Wilayah" class="redup">' . e(implode(', ', array_filter([$g['desa'], $g['kecamatan'], $g['kabupaten'], $g['provinsi']]))) . '</td>'
+       . '<td data-l="Kode desa"><span class="kode">' . e($g['kode_desa'] ?: '-') . '</span></td><td data-l="Artikel"><b>' . (int) $g['jml'] . '</b></td>'
+       . '<td data-l="Daftar" class="redup">' . e($g['dibuat_pada']) . '</td></tr>';
 }
-echo '</table></div><h2>Semua artikel</h2><div class="t"><table><tr><th>#</th><th>Judul</th><th>Jenis</th><th>Penulis</th><th>Sebagai</th><th>Sekolah</th><th>Status</th><th>Dibuat</th></tr>';
+echo '</table>' . ($guru ? '' : '<div class="kosong">Tidak ada data.</div>') . '</div>'
+   . '<div class="t" id="artikel" hidden><table><tr><th>#</th><th>Judul</th><th>Jenis</th><th>Penulis</th><th>Sekolah</th><th>Status</th><th>Dibuat</th></tr>';
 foreach ($artikel as $a) {
-    echo '<tr><td>' . (int) $a['id'] . '</td><td><a href="admin.php?artikel=' . (int) $a['id'] . '">' . e($a['judul'] ?: '(belum ada judul)')
-       . '</a></td><td>' . e($a['jenis_nama']) . '</td><td>' . e($a['guru']) . '</td><td>' . e($a['peran'] ?: '-') . '</td><td>' . e($a['nama_sekolah'])
-       . '</td><td>' . e($a['status']) . '</td><td>' . e($a['dibuat_pada']) . '</td></tr>';
+    echo '<tr><td data-l="#" class="redup">' . (int) $a['id'] . '</td><td data-l="Judul"><a href="admin.php?artikel=' . (int) $a['id'] . '"><b>' . e($a['judul'] ?: '(belum ada judul)') . '</b></a></td>'
+       . '<td data-l="Jenis">' . e($a['jenis_nama']) . '</td><td data-l="Penulis">' . e($a['guru']) . ' <span class="pil peran">' . e($a['peran'] ?: '-') . '</span></td>'
+       . '<td data-l="Sekolah">' . e($a['nama_sekolah']) . '</td><td data-l="Status">' . lencana($a['status']) . '</td><td data-l="Dibuat" class="redup">' . e($a['dibuat_pada']) . '</td></tr>';
 }
-echo '</table></div></div></body></html>';
+echo '</table>' . ($artikel ? '' : '<div class="kosong">Tidak ada data.</div>') . '</div></div>'
+   . '<script>document.querySelectorAll("[data-tab]").forEach(function(b){b.onclick=function(){document.querySelectorAll("[data-tab]").forEach(function(x){x.classList.toggle("aktif",x===b);document.getElementById(x.dataset.tab).hidden=x!==b})}});</script></body></html>';
