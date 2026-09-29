@@ -151,7 +151,7 @@ function angka(mysqli $k, string $sql): int
 /* ----- Detail satu artikel ----- */
 if (isset($_GET['artikel'])) {
     $st = $koneksi->prepare('SELECT a.*, ' . $kolKlipaa . ' AS klipaa, u.nama AS nama_guru, u.email, ' . $kolPeran . ' AS peran, s.nama_sekolah,
-        (SELECT COUNT(*) FROM artikel_gambar g WHERE g.artikel_id = a.id) AS jml_foto
+        (SELECT COUNT(*) FROM artikel_gambar g WHERE g.artikel_id = a.id) AS jml_foto, (SELECT COALESCE(SUM(LENGTH(g.data)),0) FROM artikel_gambar g WHERE g.artikel_id = a.id) AS byte_foto
         FROM artikel a LEFT JOIN users u ON u.id = a.user_id LEFT JOIN sekolah s ON s.id = a.sekolah_id WHERE a.id = ?');
     $id = (int) $_GET['artikel'];
     $st->bind_param('i', $id);
@@ -162,7 +162,7 @@ if (isset($_GET['artikel'])) {
     echo '<h2 style="font-size:26px">' . e($a['judul'] ?: '(belum ada judul)') . '</h2><p>' . lencana($a['status'])
        . ' <span class="pil peran">' . e($a['jenis_nama']) . '</span> <span class="redup">' . e($a['dibuat_pada']) . '</span></p>'
        . '<p><b>' . e($a['nama_guru']) . '</b> <span class="pil peran">' . e($a['peran'] ?: '-') . '</span> <span class="redup">' . e($a['email'])
-       . ' &middot; ' . e($a['nama_sekolah']) . ' &middot; ' . (int) $a['jml_foto'] . ' foto</span></p>';
+       . ' &middot; ' . e($a['nama_sekolah']) . ' &middot; ' . (int) $a['jml_foto'] . ' foto (' . round(((int) $a['byte_foto']) / 1024) . ' KB)</span></p>';
     echo '<p>' . formAksi($a, $adaKlipaa, $csrf, '') . '</p>';
     if ($a['pesan_error']) { echo '<p class="err">Error: ' . e($a['pesan_error']) . '</p>'; }
     echo '<div class="detail"><h3>Isian yang dikirim</h3><div class="t"><table><tr><th>Isian</th><th>Isi</th></tr>';

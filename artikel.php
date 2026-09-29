@@ -20,11 +20,22 @@ if (!$artikel) {
 $sekolah = ambilSekolah($koneksi, $userId) ?: [];
 
 $stmt = $koneksi->prepare(
-    "SELECT id, token FROM artikel_gambar WHERE artikel_id = ? ORDER BY urutan, id"
+    "SELECT id, token, mime, data FROM artikel_gambar WHERE artikel_id = ? ORDER BY urutan, id"
 );
 $stmt->bind_param("i", $id);
 $stmt->execute();
 $fotoDaftar = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+
+/* Foto dikirim langsung di dalam halaman (data URI), supaya tidak bergantung pada
+   permintaan terpisah yang bisa dicegat pemeriksaan anti-bot hosting gratis. */
+foreach ($fotoDaftar as &$fotoItem) {
+    $fotoItem['src'] = strlen((string) $fotoItem['data']) > 0
+        ? 'data:' . $fotoItem['mime'] . ';base64,' . base64_encode($fotoItem['data'])
+        : '';
+    unset($fotoItem['data']);
+}
+unset($fotoItem);
+$fotoDaftar = array_values(array_filter($fotoDaftar, fn($f) => $f['src'] !== ''));
 $stmt->close();
 
 $info = $_SESSION['info_artikel'][$id] ?? '';
@@ -139,7 +150,7 @@ $judulHalaman = $selesai ? $artikel['judul'] : 'Artikel ' . $artikel['jenis_nama
 
                 <figure class="foto-utama">
                     <img
-                        src="gambar.php?t=<?= e($fotoDaftar[0]['token']) ?>&amp;i=1"
+                        src="<?= e($fotoDaftar[0]['src']) ?>"
                         alt="Foto pendukung artikel <?= e($artikel['judul']) ?>"
                     >
                 </figure>
@@ -158,7 +169,7 @@ $judulHalaman = $selesai ? $artikel['judul'] : 'Artikel ' . $artikel['jenis_nama
                     <?php foreach (array_slice($fotoDaftar, 1) as $urut => $foto): ?>
                         <figure>
                             <img
-                                src="gambar.php?t=<?= e($foto['token']) ?>&amp;i=1"
+                                src="<?= e($foto['src']) ?>"
                                 alt="Foto pendukung <?= $urut + 2 ?> artikel <?= e($artikel['judul']) ?>"
                                 loading="lazy"
                             >
@@ -197,7 +208,7 @@ $judulHalaman = $selesai ? $artikel['judul'] : 'Artikel ' . $artikel['jenis_nama
                     <ul class="aksi-foto">
                         <?php foreach ($fotoDaftar as $urut => $foto): ?>
                             <li>
-                                <a href="gambar.php?t=<?= e($foto['token']) ?>&amp;i=1&amp;unduh=1" download>
+                                <a href="<?= e($foto['src']) ?>" download="foto-<?= $urut + 1 ?>.jpg">
                                     Unduh foto <?= $urut + 1 ?>
                                 </a>
                             </li>
