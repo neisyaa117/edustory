@@ -73,7 +73,7 @@ $jenisPertama = array_key_first($daftarJenis);
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/artikel.css">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="assets/css/jenis.css">
 </head>
 
 
@@ -174,82 +174,53 @@ $jenisPertama = array_key_first($daftarJenis);
 
         <div class="pilih-judul">
             <h2>Mau menulis artikel apa?</h2>
-            <p>Pilih jenisnya di daftar, baca deskripsinya, lalu mulai menulis.</p>
+            <p>Pilih jenisnya lalu mulai menulis. Ketuk tanda ? kalau butuh petunjuk.</p>
         </div>
 
-        <div class="pilih" id="pilihJenis">
+        <div class="jenis-grid" id="pilihJenis">
 
-            <div class="pilih-daftar" role="tablist" aria-label="Jenis artikel">
+            <?php foreach ($daftarJenis as $slug => $j): ?>
 
-                <?php foreach ($daftarJenis as $slug => $j): ?>
-
-                    <button
-                        type="button"
-                        role="tab"
-                        class="pilih-item"
-                        id="tab-<?= e($slug) ?>"
-                        aria-controls="panel-<?= e($slug) ?>"
-                        aria-selected="<?= $slug === $jenisPertama ? 'true' : 'false' ?>"
-                        tabindex="<?= $slug === $jenisPertama ? '0' : '-1' ?>"
-                        data-target="<?= e($slug) ?>"
-                    >
-                        <span class="pilih-ikon <?= e($j['warna']) ?>"><i class="fa-solid <?= e($j['ikon']) ?>" aria-hidden="true"></i></span>
-
+                <div class="jenis-kartu">
+                    <a class="jenis-tautan" href="buat.php?jenis=<?= e(urlencode($slug)) ?>">
+                        <span class="pilih-ikon <?= e($j['warna']) ?>"><?= $j['ikon'] ?></span>
                         <span class="pilih-teks">
                             <span class="pilih-nama"><?= e($j['nama']) ?></span>
                             <span class="pilih-ringkas"><?= e($j['ringkas']) ?></span>
                         </span>
-                    </button>
+                    </a>
+                    <button type="button" class="tanya" data-dialog="info-<?= e($slug) ?>"
+                            aria-label="Petunjuk <?= e($j['nama']) ?>">?</button>
+                </div>
 
-                <?php endforeach; ?>
+                <dialog class="info-dialog" id="info-<?= e($slug) ?>" aria-labelledby="judul-<?= e($slug) ?>">
+                    <h3 id="judul-<?= e($slug) ?>"><?= $j['ikon'] ?> <?= e($j['nama']) ?></h3>
+                    <p><?= e($j['deskripsi']) ?></p>
 
-            </div>
+                    <h4>Cocok untuk</h4>
+                    <p><?= e($j['cocok']) ?></p>
 
+                    <h4>Yang perlu disiapkan</h4>
+                    <ul>
+                        <?php foreach ($j['siapkan'] as $butir): ?>
+                            <li><?= e($butir) ?></li>
+                        <?php endforeach; ?>
+                    </ul>
 
-            <div class="pilih-halaman">
+                    <h4>Contoh judul</h4>
+                    <ul class="buku-contoh">
+                        <?php foreach ($j['contoh'] as $contoh): ?>
+                            <li><?= e($contoh) ?></li>
+                        <?php endforeach; ?>
+                    </ul>
 
-                <?php foreach ($daftarJenis as $slug => $j): ?>
+                    <div class="info-aksi">
+                        <a href="buat.php?jenis=<?= e(urlencode($slug)) ?>" class="btn-primary">Tulis artikel</a>
+                        <button type="button" class="btn-garis" data-tutup>Tutup</button>
+                    </div>
+                </dialog>
 
-                    <article
-                        class="buku"
-                        role="tabpanel"
-                        id="panel-<?= e($slug) ?>"
-                        aria-labelledby="tab-<?= e($slug) ?>"
-                        <?= $slug === $jenisPertama ? '' : 'hidden' ?>
-                    >
-
-                        <h3><?= e($j['nama']) ?></h3>
-
-                        <p class="buku-lead"><?= e($j['deskripsi']) ?></p>
-
-                        <h4>Cocok untuk</h4>
-                        <p><?= e($j['cocok']) ?></p>
-
-                        <h4>Yang perlu disiapkan</h4>
-                        <ul>
-                            <?php foreach ($j['siapkan'] as $butir): ?>
-                                <li><?= e($butir) ?></li>
-                            <?php endforeach; ?>
-                        </ul>
-
-                        <h4>Contoh judul</h4>
-                        <ul class="buku-contoh">
-                            <?php foreach ($j['contoh'] as $contoh): ?>
-                                <li><?= e($contoh) ?></li>
-                            <?php endforeach; ?>
-                        </ul>
-
-                        <div class="buku-aksi">
-                            <a href="buat.php?jenis=<?= e(urlencode($slug)) ?>" class="btn-primary">
-                                Tulis artikel <?= e($j['nama']) ?>
-                            </a>
-                        </div>
-
-                    </article>
-
-                <?php endforeach; ?>
-
-            </div>
+            <?php endforeach; ?>
 
         </div>
 

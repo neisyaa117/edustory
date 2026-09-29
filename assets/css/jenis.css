@@ -1,0 +1,39 @@
+/* Beranda: daftar jenis artikel berupa kotak, petunjuk lewat tanda "?" */
+.jenis-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.jenis-kartu {
+    display: flex; align-items: center; min-width: 0;
+    background: var(--paper); border: 1px solid var(--line); border-radius: 12px;
+    box-shadow: var(--shadow); transition: border-color .2s, transform .2s;
+}
+.jenis-kartu:hover { border-color: var(--green); transform: translateY(-1px); }
+.jenis-tautan {
+    flex: 1; min-width: 0; display: flex; align-items: center; gap: 12px;
+    padding: 12px 6px 12px 12px; color: inherit; text-decoration: none; border-radius: 12px;
+}
+.jenis-tautan:focus-visible, .jenis-kartu .tanya:focus-visible {
+    outline: 3px solid var(--fokus); outline-offset: -3px;
+}
+.jenis-kartu .tanya {
+    flex: none; width: 34px; height: 34px; margin-right: 12px; padding: 0;
+    display: flex; align-items: center; justify-content: center;
+    background: #fff; border: 1px solid var(--line); border-radius: 50%;
+    color: var(--green); font: 800 16px "Nunito", sans-serif; cursor: pointer;
+}
+.jenis-kartu .tanya:hover { background: var(--green); color: #fff; }
+
+.info-dialog {
+    width: min(520px, calc(100% - 32px)); max-height: 85vh; overflow: auto;
+    padding: 22px 22px 18px; border: 0; border-radius: 14px;
+    background: var(--paper); color: var(--ink); font-size: 14.5px; line-height: 1.55;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, .3);
+}
+.info-dialog::backdrop { background: rgba(20, 30, 25, .45); }
+.info-dialog h3 { margin: 0 0 8px; font-family: "Baloo 2", sans-serif; font-size: 22px; }
+.info-dialog h4 { margin: 14px 0 2px; color: var(--green-dark, var(--green)); font-size: 13px; }
+.info-dialog p, .info-dialog ul { margin: 0; }
+.info-dialog ul { padding-left: 20px; }
+.info-aksi { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+
+@media (max-width: 700px) {
+    .jenis-grid { grid-template-columns: 1fr; gap: 10px; }
+}

@@ -38,7 +38,7 @@ return [
     /* ------------------------------------------------------------------ */
     'profil' => [
         'nama'      => 'Profil',
-        'ikon'      => 'fa-chalkboard-user',
+        'ikon'      => '👩‍🏫',
         'warna'     => 'purple-bg',
         'ringkas'   => 'Kenalkan sosok dan cerita di balik sekolah.',
         'deskripsi' => 'Profil menceritakan satu orang di lingkungan sekolah: guru, siswa, kepala sekolah, orang tua, atau alumni. Isinya bukan daftar jabatan, melainkan gambaran manusianya: apa yang membuatnya istimewa, apa yang sudah ia berikan, dan kejadian yang membuat orang lain mengingatnya.',
@@ -107,7 +107,7 @@ return [
     /* ------------------------------------------------------------------ */
     'kegiatan' => [
         'nama'      => 'Kegiatan',
-        'ikon'      => 'fa-champagne-glasses',
+        'ikon'      => '🎉',
         'warna'     => 'orange-bg',
         'ringkas'   => 'Ceritakan kegiatan seru dan bermakna.',
         'deskripsi' => 'Kegiatan merekam satu peristiwa yang sudah berlangsung di sekolah, misalnya upacara, lomba, pentas seni, kunjungan, atau kerja bakti. Artikel menjawab apa yang terjadi, siapa yang terlibat, bagaimana suasananya, dan apa yang tersisa setelah acara selesai.',
@@ -160,7 +160,7 @@ return [
     /* ------------------------------------------------------------------ */
     'pohon-bercerita' => [
         'nama'      => 'Pohon Bercerita',
-        'ikon'      => 'fa-tree',
+        'ikon'      => '🌳',
         'warna'     => 'green-bg',
         'ringkas'   => 'Bagikan cerita tentang pohon atau tanaman yang berkesan.',
         'deskripsi' => 'Pohon Bercerita mengangkat satu pohon atau tanaman di lingkungan sekolah yang menyimpan kenangan: pohon tua di halaman, tanaman yang ditanam angkatan tertentu, atau sudut kebun yang selalu ramai. Artikel bercerita lewat pohon itu, tentang asal-usulnya, siapa yang menanam dan sering singgah, dan apa artinya bagi warga sekolah.',
@@ -211,7 +211,7 @@ return [
     /* ------------------------------------------------------------------ */
     'anak-hebat' => [
         'nama'      => 'Anak Hebat',
-        'ikon'      => 'fa-star',
+        'ikon'      => '🌟',
         'warna'     => 'yellow-bg',
         'ringkas'   => 'Ceritakan pengalaman dan kisah anak inspiratif.',
         'deskripsi' => 'Anak Hebat menceritakan satu anak yang menginspirasi. Hebat di sini tidak harus juara: bisa karena tekun, jujur, berani mencoba, atau bangkit setelah jatuh. Artikel menonjolkan prosesnya, bukan hanya hasil, dan menyebut siapa yang ikut mendukung.',
@@ -264,7 +264,7 @@ return [
     /* ------------------------------------------------------------------ */
     'tips-trik' => [
         'nama'      => 'Tips & Trik',
-        'ikon'      => 'fa-lightbulb',
+        'ikon'      => '💡',
         'warna'     => 'blue-bg',
         'ringkas'   => 'Bagikan tips sederhana yang bermanfaat.',
         'deskripsi' => 'Tips & Trik berisi cara praktis yang sudah dicoba di sekolah dan berhasil. Bisa untuk mengajar, mengelola kelas, mengajak anak gemar membaca, atau menjaga kebersihan. Artikel disusun dari masalah, langkah-langkah, lalu hasilnya, supaya sekolah lain bisa langsung mencoba.',
@@ -317,7 +317,7 @@ return [
     /* ------------------------------------------------------------------ */
     'program-unggulan' => [
         'nama'      => 'Program Unggulan',
-        'ikon'      => 'fa-school',
+        'ikon'      => '🏫',
         'warna'     => 'coral-bg',
         'ringkas'   => 'Kenalkan program menarik dari sekolah.',
         'deskripsi' => 'Program Unggulan memperkenalkan satu program yang menjadi ciri sekolah, misalnya gerakan literasi, kebun sekolah, pembiasaan ibadah, atau kelas seni. Artikel menjelaskan tujuan, cara menjalankan, siapa yang terlibat, dan apa yang sudah berubah berkat program itu.',
@@ -370,7 +370,7 @@ return [
     /* ------------------------------------------------------------------ */
     'prestasi-inovasi' => [
         'nama'      => 'Prestasi & Inovasi',
-        'ikon'      => 'fa-trophy',
+        'ikon'      => '🏆',
         'warna'     => 'purple-bg',
         'ringkas'   => 'Bagikan prestasi dan karya sekolah.',
         'deskripsi' => 'Prestasi & Inovasi mengabarkan capaian sekolah: juara lomba, karya siswa, atau cara baru yang dibuat guru dan sekolah. Artikel tidak berhenti pada pengumuman kemenangan. Ia menceritakan persiapannya, kerja keras di baliknya, dan apa artinya bagi sekolah.',
@@ -427,7 +427,7 @@ return [
     /* ------------------------------------------------------------------ */
     'suara-hati' => [
         'nama'      => 'Suara Hati',
-        'ikon'      => 'fa-comments',
+        'ikon'      => '💬',
         'warna'     => 'pink-bg',
         'ringkas'   => 'Cerita dari siswa, guru, orang tua, dan lainnya.',
         'deskripsi' => 'Suara Hati adalah tulisan personal dalam sudut pandang orang pertama. Siswa, guru, orang tua, atau alumni menceritakan pengalaman dan perasaannya dengan kata-kata sendiri. Artikel menjaga suara penuturnya: hangat, jujur, dan tidak dibuat terlalu resmi.',
@@ -481,7 +481,7 @@ return [
     /* ------------------------------------------------------------------ */
     'kekompakan-komunitas' => [
         'nama'      => 'Kekompakan Komunitas',
-        'ikon'      => 'fa-handshake',
+        'ikon'      => '🤝',
         'warna'     => 'orange-bg',
         'ringkas'   => 'Ceritakan kerja sama dan kebersamaan.',
         'deskripsi' => 'Kekompakan Komunitas menceritakan saat sekolah, orang tua, warga, dan pihak lain bekerja bersama: gotong royong membangun, patungan membeli perlengkapan, atau bergantian menjaga kegiatan. Artikel memperlihatkan siapa berbuat apa, dan bagaimana kebersamaan itu terasa.',
@@ -535,7 +535,7 @@ return [
     /* ------------------------------------------------------------------ */
     'tujuh-kebiasaan' => [
         'nama'      => '7 Kebiasaan Anak Indonesia Hebat',
-        'ikon'      => 'fa-seedling',
+        'ikon'      => '🌱',
         'warna'     => 'green-bg',
         'ringkas'   => 'Ceritakan kebiasaan baik yang diterapkan anak.',
         'deskripsi' => 'Artikel ini menceritakan bagaimana anak-anak di sekolah membiasakan tujuh kebiasaan baik: bangun pagi, beribadah, berolahraga, makan sehat dan bergizi, gemar belajar, bermasyarakat, dan tidur cepat. Pilih satu atau beberapa kebiasaan, lalu ceritakan bagaimana sekolah dan keluarga membantu anak menjalankannya setiap hari.',
