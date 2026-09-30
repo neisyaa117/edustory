@@ -225,9 +225,9 @@ foreach ($guru as $g) {
        . '<td data-l="Daftar" class="redup">' . e($g['dibuat_pada']) . '</td></tr>';
 }
 echo '</table>' . ($guru ? '' : '<div class="kosong">Tidak ada data.</div>') . '</div>'
-   . '<div class="t" id="artikel" hidden><table><tr><th>#</th><th>Judul</th><th>Jenis</th><th>Penulis</th><th>Sekolah</th><th>Status</th><th>Dibuat</th><th>Aksi</th></tr>';
-foreach ($artikel as $a) {
-    echo '<tr><td data-l="#" class="redup">' . (int) $a['id'] . '</td><td data-l="Judul"><a href="admin.php?artikel=' . (int) $a['id'] . '"><b>' . e($a['judul'] ?: '(belum ada judul)') . '</b></a></td>'
+   . '<div class="t" id="artikel" hidden><table><tr><th>No</th><th>Judul</th><th>Jenis</th><th>Penulis</th><th>Sekolah</th><th>Status</th><th>Dibuat</th><th>Aksi</th></tr>';
+foreach ($artikel as $no => $a) {
+    echo '<tr><td data-l="No" class="redup">' . ($no + 1) . '</td><td data-l="Judul"><a href="admin.php?artikel=' . (int) $a['id'] . '"><b>' . e($a['judul'] ?: '(belum ada judul)') . '</b></a></td>'
        . '<td data-l="Jenis">' . e($a['jenis_nama']) . '</td><td data-l="Penulis">' . e($a['guru']) . ' <span class="pil peran">' . e($a['peran'] ?: '-') . '</span></td>'
        . '<td data-l="Sekolah">' . e($a['nama_sekolah']) . '</td><td data-l="Status">' . lencana($a['status']) . '</td><td data-l="Dibuat" class="redup">' . e($a['dibuat_pada']) . '</td>'
        . '<td data-l="Aksi">' . formAksi($a, $adaKlipaa, $csrf, $q) . '</td></tr>';
