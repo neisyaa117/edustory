@@ -22,6 +22,7 @@
 .jenis-kartu .tanya:hover { background: var(--green); color: #fff; }
 
 .info-dialog {
+    position: fixed; inset: 0; margin: auto; height: fit-content;
     width: min(520px, calc(100% - 32px)); max-height: 85vh; overflow: auto;
     padding: 22px 22px 18px; border: 0; border-radius: 14px;
     background: var(--paper); color: var(--ink); font-size: 14.5px; line-height: 1.55;
