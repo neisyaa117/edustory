@@ -165,6 +165,16 @@ if (isset($_GET['artikel'])) {
        . ' &middot; ' . e($a['nama_sekolah']) . ' &middot; ' . (int) $a['jml_foto'] . ' foto (' . round(((int) $a['byte_foto']) / 1024) . ' KB)</span></p>';
     echo '<p>' . formAksi($a, $adaKlipaa, $csrf, '') . '</p>';
     if ($a['pesan_error']) { echo '<p class="err">Error: ' . e($a['pesan_error']) . '</p>'; }
+    $fs = $koneksi->prepare('SELECT mime, data FROM artikel_gambar WHERE artikel_id = ? ORDER BY urutan, id');
+    $fs->bind_param('i', $id);
+    $fs->execute();
+    $galeri = '';
+    foreach ($fs->get_result()->fetch_all(MYSQLI_ASSOC) as $f) {
+        if (strlen((string) $f['data']) > 0) {
+            $galeri .= '<img src="data:' . e($f['mime']) . ';base64,' . base64_encode($f['data']) . '" alt="Foto artikel" style="max-width:100%;width:320px;border-radius:12px;border:1px solid var(--garis)"> ';
+        }
+    }
+    if ($galeri !== '') { echo '<div class="detail"><h3>Foto</h3><div>' . $galeri . '</div></div>'; }
     echo '<div class="detail"><h3>Isian yang dikirim</h3><div class="t"><table><tr><th>Isian</th><th>Isi</th></tr>';
     foreach ((json_decode((string) $a['input_json'], true) ?: []) as $k => $v) {
         echo '<tr><td data-l="Isian" style="width:30%;font-weight:700">' . e($k) . '</td><td data-l="Isi">' . e(is_array($v) ? implode(', ', $v) : $v) . '</td></tr>';
@@ -211,7 +221,7 @@ foreach ($guru as $g) {
        . '<td data-l="Sebagai"><span class="pil peran">' . e($g['peran'] ?: '-') . '</span></td>'
        . '<td data-l="Sekolah">' . e($g['nama_sekolah']) . ' <span class="redup">' . e($g['jenjang']) . '</span></td>'
        . '<td data-l="Wilayah" class="redup">' . e(implode(', ', array_filter([$g['desa'], $g['kecamatan'], $g['kabupaten'], $g['provinsi']]))) . '</td>'
-       . '<td data-l="Kode desa"><span class="kode">' . e($g['kode_desa'] ?: '-') . '</span></td><td data-l="Artikel"><b>' . (int) $g['jml'] . '</b></td>'
+       . '<td data-l="Kode desa"><span class="kode">' . e($g['kode_desa'] ? formatKodeWilayah($g['kode_desa']) : '-') . '</span></td><td data-l="Artikel"><b>' . (int) $g['jml'] . '</b></td>'
        . '<td data-l="Daftar" class="redup">' . e($g['dibuat_pada']) . '</td></tr>';
 }
 echo '</table>' . ($guru ? '' : '<div class="kosong">Tidak ada data.</div>') . '</div>'

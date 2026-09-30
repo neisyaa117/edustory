@@ -62,6 +62,7 @@ $lokasi = array_filter([
 ]);
 
 $kodeDesa  = $sekolah['kode_desa'] ?? '';
+$kodeDesaTampil = formatKodeWilayah($kodeDesa);
 $linkKlipaa = klipaaLinkArtikel($kodeDesa);
 
 $judulHalaman = $selesai ? $artikel['judul'] : 'Artikel ' . $artikel['jenis_nama'];
@@ -226,7 +227,7 @@ $judulHalaman = $selesai ? $artikel['judul'] : 'Artikel ' . $artikel['jenis_nama
                 <?php if ($kodeDesa): ?>
 
                     <p class="kode-desa">
-                        <code id="kodeDesa"><?= e($kodeDesa) ?></code>
+                        <code id="kodeDesa"><?= e($kodeDesaTampil) ?></code>
                         <button type="button" class="btn-kecil" data-salin="kode">Salin</button>
                     </p>
 

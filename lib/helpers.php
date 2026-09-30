@@ -316,3 +316,18 @@ function pesanGalatPengguna(?string $teknis): string
 
     return $pesan;
 }
+
+/*
+| Tampilkan kode wilayah dengan titik seperti penulisan Kemendagri.
+| Disimpan tanpa titik (3205102003), ditampilkan 32.05.10.2003.
+*/
+function formatKodeWilayah(?string $kode): string
+{
+    $kode = preg_replace('/[^0-9]/', '', (string) $kode);
+
+    if (strlen($kode) === 10) {
+        return substr($kode, 0, 2) . '.' . substr($kode, 2, 2) . '.' . substr($kode, 4, 2) . '.' . substr($kode, 6, 4);
+    }
+
+    return $kode;
+}
