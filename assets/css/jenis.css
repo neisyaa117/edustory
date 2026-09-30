@@ -22,18 +22,19 @@
 .jenis-kartu .tanya:hover { background: var(--green); color: #fff; }
 
 .info-dialog {
-    position: fixed; inset: 0; margin: auto; height: fit-content;
-    width: min(520px, calc(100% - 32px)); max-height: 85vh; overflow: auto;
+    position: fixed; top: 50%; left: 50%; right: auto; bottom: auto;
+    transform: translate(-50%, -50%); margin: 0; height: auto;
+    width: calc(100% - 32px); max-width: 520px; max-height: 85vh; max-height: 85dvh; overflow: auto;
     padding: 22px 22px 18px; border: 0; border-radius: 14px;
     background: var(--paper); color: var(--ink); font-size: 14.5px; line-height: 1.55;
     box-shadow: 0 20px 60px rgba(0, 0, 0, .3);
 }
 .info-dialog::backdrop { background: rgba(20, 30, 25, .45); }
-.info-dialog h3 { margin: 0 0 8px; font-family: "Baloo 2", sans-serif; font-size: 22px; }
+.info-dialog h3 { text-align: center; margin: 0 0 8px; font-family: "Baloo 2", sans-serif; font-size: 22px; }
 .info-dialog h4 { margin: 14px 0 2px; color: var(--green-dark, var(--green)); font-size: 13px; }
 .info-dialog p, .info-dialog ul { margin: 0; }
 .info-dialog ul { padding-left: 20px; }
-.info-aksi { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+.info-aksi { justify-content: center; display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
 
 @media (max-width: 700px) {
     .jenis-grid { grid-template-columns: 1fr; gap: 10px; }

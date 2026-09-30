@@ -73,7 +73,7 @@ $jenisPertama = array_key_first($daftarJenis);
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/artikel.css">
 
-    <link rel="stylesheet" href="assets/css/jenis.css">
+    <link rel="stylesheet" href="assets/css/jenis.css?v=2">
 </head>
 
 
@@ -305,7 +305,7 @@ $jenisPertama = array_key_first($daftarJenis);
 </footer>
 
 
-<script src="assets/js/dashboard.js"></script>
+<script src="assets/js/dashboard.js?v=2"></script>
 
 </body>
 
