@@ -90,7 +90,7 @@ function ambilUser(mysqli $k, int $userId): ?array
     $baris = $stmt->get_result()->fetch_assoc();
     $stmt->close();
 
-    return $baris ?: null;
+    return $baris ? perbaikiKodeWilayah($k, $baris) : null;
 }
 
 function ambilSekolah(mysqli $k, int $userId): ?array
@@ -103,7 +103,6 @@ function ambilSekolah(mysqli $k, int $userId): ?array
 
     return $baris ? perbaikiKodeWilayah($k, $baris) : null;
 }
-
 
 function daftarJenisArtikel(): array
 {

@@ -350,6 +350,7 @@ if ($data) {
 
     <p>
         © <?php echo date('Y'); ?> EduStory
+        · <a href="admin.php" style="color: inherit;">Admin</a>
     </p>
 
 </footer>

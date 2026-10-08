@@ -12,11 +12,22 @@
 
 require_once __DIR__ . '/env.php';
 
-$host     = envNilai('DB_HOST', 'sql301.infinityfree.com');
-$user     = envNilai('DB_USER', 'if0_42968950');
+// Tidak ada nilai bawaan untuk host/user/nama database. Isi lewat
+// config/lokal.php (komputer sendiri atau hosting) atau environment
+// variable (Vercel). Jangan tulis nilai sungguhan di sini; file ini ikut ke GitHub.
+$host     = envNilai('DB_HOST');
+$user     = envNilai('DB_USER');
 $password = envNilai('DB_PASS');
-$database = envNilai('DB_NAME', 'if0_42968950_edustory');
+$database = envNilai('DB_NAME');
 $port     = (int) envNilai('DB_PORT', '3306');
+
+if ($host === '' || $user === '' || $database === '') {
+
+    error_log('Koneksi database belum diatur: DB_HOST/DB_USER/DB_NAME kosong.');
+
+    http_response_code(500);
+    die('Database belum diatur. Isi DB_HOST, DB_USER, DB_PASS, dan DB_NAME di config/lokal.php (lihat lokal.example.php) atau di Environment Variables hosting.');
+}
 
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 

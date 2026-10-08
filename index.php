@@ -183,7 +183,7 @@ if (isset($_SESSION['user_id'])) {
 
 
 <footer class="footer">
-    <p>© <?php echo date('Y'); ?> EduStory · Cerita sekolah, jadi lebih mudah.</p>
+    <p>© <?php echo date('Y'); ?> EduStory · Cerita sekolah, jadi lebih mudah. · <a href="admin.php" style="color: inherit;">Admin</a></p>
 </footer>
 
 </body>

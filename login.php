@@ -131,6 +131,7 @@ if (isset($_SESSION['user_id'])) {
 
 <footer class="footer">
     <p>© <?php echo date('Y'); ?> EduStory</p>
+    · <a href="admin.php" style="color: inherit;">Admin</a>
 </footer>
 
 

@@ -285,7 +285,7 @@ function tampilkanField(array $f, $nilaiLama): void
 
 <footer class="footer">
 
-    <p>© <?= date('Y') ?> EduStory</p>
+    <p>© <?= date('Y') ?> EduStory · <a href="admin.php" style="color: inherit;">Admin</a></p>
 
 </footer>
 

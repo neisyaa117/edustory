@@ -328,6 +328,7 @@ $jenisPertama = array_key_first($daftarJenis);
     <p>
         © <?= date('Y') ?> EduStory
         · Cerita sekolah, jadi lebih mudah.
+        · <a href="admin.php" style="color: inherit;">Admin</a>
     </p>
 
 </footer>
