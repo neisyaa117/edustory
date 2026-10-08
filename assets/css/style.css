@@ -143,7 +143,16 @@ textarea {
     transform: translateY(-2px);
 }
 
+.nav-left {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+}
+
 .back-home {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
     color: var(--ink-soft);
     font-size: 14px;
     font-weight: 700;

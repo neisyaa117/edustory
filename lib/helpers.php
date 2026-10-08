@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../config/koneksi.php';
+require_once __DIR__ . '/wilayah.php';
 
 date_default_timezone_set('Asia/Jakarta');
 
@@ -100,8 +101,9 @@ function ambilSekolah(mysqli $k, int $userId): ?array
     $baris = $stmt->get_result()->fetch_assoc();
     $stmt->close();
 
-    return $baris ?: null;
+    return $baris ? perbaikiKodeWilayah($k, $baris) : null;
 }
+
 
 function daftarJenisArtikel(): array
 {
@@ -302,7 +304,8 @@ function pesanGalatPengguna(?string $teknis): string
 
     if (stripos($teknis, 'API_KEY belum diisi') !== false) {
         $pesan = 'Penulis artikel belum disiapkan. Hubungi pengelola aplikasi.';
-    } elseif (stripos($teknis, 'HTTP 429') !== false || stripos($teknis, 'quota') !== false) {
+    } elseif (stripos($teknis, 'HTTP 429') !== false || stripos($teknis, 'HTTP 503') !== false
+        || stripos($teknis, 'high demand') !== false || stripos($teknis, 'quota') !== false) {
         $pesan = 'Penulis artikel sedang sibuk. Tunggu semenit, lalu coba lagi.';
     } else {
         $pesan = 'Artikel belum berhasil ditulis. Isianmu aman tersimpan, coba lagi sebentar lagi.';
@@ -315,19 +318,4 @@ function pesanGalatPengguna(?string $teknis): string
     }
 
     return $pesan;
-}
-
-/*
-| Tampilkan kode wilayah dengan titik seperti penulisan Kemendagri.
-| Disimpan tanpa titik (3205102003), ditampilkan 32.05.10.2003.
-*/
-function formatKodeWilayah(?string $kode): string
-{
-    $kode = preg_replace('/[^0-9]/', '', (string) $kode);
-
-    if (strlen($kode) === 10) {
-        return substr($kode, 0, 2) . '.' . substr($kode, 2, 2) . '.' . substr($kode, 4, 2) . '.' . substr($kode, 6, 4);
-    }
-
-    return $kode;
 }

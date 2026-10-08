@@ -8,6 +8,7 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 require_once "config/koneksi.php";
+require_once __DIR__ . '/lib/helpers.php';
 
 $user_id = $_SESSION['user_id'];
 
@@ -17,6 +18,11 @@ $query = mysqli_query(
 );
 
 $data = mysqli_fetch_assoc($query);
+
+// Samakan kode wilayah dengan data Kemendagri (memperbaiki kode lama).
+if ($data) {
+    $data = perbaikiKodeWilayah($koneksi, $data);
+}
 
 ?>
 
@@ -53,16 +59,24 @@ $data = mysqli_fetch_assoc($query);
 
     <div class="nav-container">
 
-        <a href="index.php" class="brand">
+        <div class="nav-left">
 
-            <span class="brand-icon">✦</span>
+            <?php if ($data): ?>
+                <a href="dashboard.php" class="back-home">← Kembali ke beranda</a>
+            <?php endif; ?>
 
-            <span>EduStory</span>
+            <a href="<?= $data ? 'dashboard.php' : 'index.php' ?>" class="brand">
 
-        </a>
+                <span class="brand-icon">✦</span>
+
+                <span>EduStory</span>
+
+            </a>
+
+        </div>
 
         <div class="profile-step">
-            Langkah 1 dari 1
+            <?= $data ? 'Ubah data sekolah' : 'Langkah 1 dari 1' ?>
         </div>
 
     </div>
@@ -162,6 +176,16 @@ $data = mysqli_fetch_assoc($query);
                             <option value="SD"
                                 <?= (($data['jenjang'] ?? '') == 'SD') ? 'selected' : '' ?>>
                                 SD
+                            </option>
+
+                            <option value="SMP"
+                                <?= (($data['jenjang'] ?? '') == 'SMP') ? 'selected' : '' ?>>
+                                SMP
+                            </option>
+
+                            <option value="SMA"
+                                <?= (($data['jenjang'] ?? '') == 'SMA') ? 'selected' : '' ?>>
+                                SMA
                             </option>
 
                         </select>

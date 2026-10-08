@@ -1,15 +1,12 @@
 <?php
-
 session_start();
 
 if (isset($_SESSION['user_id'])) {
     header("Location: dashboard.php");
     exit;
 }
-
-$error = $_GET['error'] ?? '';
-
 ?>
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -21,849 +18,279 @@ $error = $_GET['error'] ?? '';
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/password.css">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="assets/css/style.css">
 
     <style>
+        /* =========================
+           FORM PENDAFTARAN
+        ========================= */
 
-        * {
+        .auth-box {
+            max-width: 620px;
+        }
+        .form-message {
+    width: 100%;
+    max-width: 620px;
+    margin-bottom: 15px;
+    padding: 13px 16px;
+    border-radius: 12px;
+    background: #fff0e5;
+    border: 1px solid #f0c5a8;
+    color: #8a4e35;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+        .form-section-title {
+            margin: 28px 0 15px;
+            padding-top: 20px;
+            border-top: 1px solid #e8e2d8;
+        }
+
+        .form-section-title:first-child {
+            margin-top: 0;
+            padding-top: 0;
+            border-top: none;
+        }
+
+        .form-section-title h3 {
+            margin: 0 0 4px;
+            font-size: 17px;
+            color: #18252b;
+        }
+
+        .form-section-title p {
             margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --green: #4f8f72;
-            --green-dark: #356b53;
-            --green-light: #dff1e6;
-
-            --orange: #f49b52;
-            --yellow: #ffd76a;
-
-            --cream: #fffaf1;
-            --cream-dark: #f7eedf;
-
-            --ink: #26352e;
-            --muted: #718078;
-
-            --white: #ffffff;
-            --danger: #d85b5b;
-        }
-
-        body {
-            min-height: 100vh;
-            font-family: 'Nunito', sans-serif;
-            color: var(--ink);
-
-            background:
-                radial-gradient(
-                    circle at 8% 10%,
-                    rgba(255, 215, 106, .28),
-                    transparent 25%
-                ),
-                radial-gradient(
-                    circle at 92% 90%,
-                    rgba(244, 155, 82, .18),
-                    transparent 28%
-                ),
-                var(--cream);
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            padding: 35px 18px;
-        }
-
-        .page {
-            width: 100%;
-            max-width: 1050px;
-
-            display: grid;
-            grid-template-columns: .85fr 1.15fr;
-
-            background: rgba(255,255,255,.88);
-
-            border: 1px solid rgba(79,143,114,.12);
-
-            border-radius: 30px;
-
-            overflow: hidden;
-
-            box-shadow:
-                0 25px 70px rgba(50, 75, 62, .12);
-        }
-
-        /* =========================================
-           BAGIAN KIRI
-        ========================================= */
-
-        .intro {
-            position: relative;
-
-            padding: 55px 45px;
-
-            background:
-                linear-gradient(
-                    145deg,
-                    #e5f4e9 0%,
-                    #f7f7d9 52%,
-                    #fff0d7 100%
-                );
-
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-
-            overflow: hidden;
-        }
-
-        .intro::before {
-            content: "";
-
-            position: absolute;
-
-            width: 220px;
-            height: 220px;
-
-            border-radius: 50%;
-
-            background: rgba(255,255,255,.42);
-
-            top: -80px;
-            right: -80px;
-        }
-
-        .intro::after {
-            content: "";
-
-            position: absolute;
-
-            width: 170px;
-            height: 170px;
-
-            border-radius: 50%;
-
-            background: rgba(255, 215, 106, .18);
-
-            bottom: -80px;
-            left: -70px;
-        }
-
-        .logo {
-            position: relative;
-            z-index: 2;
-
-            display: flex;
-            align-items: center;
-
-            gap: 10px;
-
-            margin-bottom: 28px;
-        }
-
-        .logo-icon {
-            width: 48px;
-            height: 48px;
-
-            border-radius: 15px;
-
-            background: var(--green);
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            color: white;
-
-            font-size: 25px;
-
-            box-shadow:
-                0 8px 18px rgba(79,143,114,.22);
-        }
-
-        .logo-text {
-            font-family: 'Baloo 2', sans-serif;
-
-            font-size: 28px;
-            font-weight: 800;
-
-            color: var(--green-dark);
-        }
-
-        .intro-content {
-            position: relative;
-            z-index: 2;
-        }
-
-        .intro h1 {
-            font-family: 'Baloo 2', sans-serif;
-
-            font-size: clamp(38px, 4vw, 58px);
-
-            line-height: .98;
-
-            color: var(--green-dark);
-
-            margin-bottom: 20px;
-        }
-
-        .intro h1 span {
-            color: var(--orange);
-        }
-
-        .intro p {
-            max-width: 390px;
-
-            color: #5d6e64;
-
-            font-size: 16px;
-
-            line-height: 1.7;
-        }
-
-        .mini-list {
-            margin-top: 30px;
-
-            display: flex;
-            flex-direction: column;
-
-            gap: 13px;
-        }
-
-        .mini-item {
-            display: flex;
-            align-items: center;
-
-            gap: 12px;
-
-            color: #52645a;
-
-            font-size: 14px;
-            font-weight: 700;
-        }
-
-        .mini-icon {
-            width: 32px;
-            height: 32px;
-
-            flex-shrink: 0;
-
-            border-radius: 11px;
-
-            background: rgba(255,255,255,.72);
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            color: var(--green);
-        }
-
-        /* =========================================
-           FORM
-        ========================================= */
-
-        .form-area {
-            padding: 45px 48px;
-
-            background: white;
-        }
-
-        .form-title {
-            margin-bottom: 28px;
-        }
-
-        .form-title h2 {
-            font-family: 'Baloo 2', sans-serif;
-
-            font-size: 31px;
-
-            line-height: 1.1;
-
-            color: var(--ink);
-        }
-
-        .form-title p {
-            margin-top: 6px;
-
-            color: var(--muted);
-
-            font-size: 14px;
-        }
-
-        .alert {
-            margin-bottom: 20px;
-
-            padding: 13px 15px;
-
-            border-radius: 13px;
-
-            background: #fff0f0;
-
-            color: var(--danger);
-
             font-size: 13px;
-
-            font-weight: 700;
-        }
-
-        form {
-            display: flex;
-            flex-direction: column;
-
-            gap: 17px;
+            color: #7a817e;
         }
 
         .form-row {
             display: grid;
-
             grid-template-columns: 1fr 1fr;
-
             gap: 15px;
         }
 
-        .field {
-            display: flex;
-            flex-direction: column;
-
-            gap: 7px;
+        .select-wrapper {
+            position: relative;
         }
 
-        label {
-            font-size: 13px;
-
-            font-weight: 800;
-
-            color: #46574e;
+        .select-wrapper::after {
+            content: "⌄";
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-55%);
+            color: #6f7975;
+            font-size: 18px;
+            pointer-events: none;
         }
 
-        .required {
-            color: var(--orange);
-        }
-
-        input,
-        select,
-        textarea {
+        .select-wrapper select {
             width: 100%;
-
-            border: 1.5px solid #e1e9e4;
-
-            border-radius: 13px;
-
-            padding: 12px 14px;
-
-            font-family: 'Nunito', sans-serif;
-
-            font-size: 14px;
-
-            color: var(--ink);
-
-            background: #fbfdfb;
-
-            outline: none;
-
-            transition: .2s;
-        }
-
-        input:focus,
-        select:focus,
-        textarea:focus {
-            border-color: var(--green);
-
-            background: white;
-
-            box-shadow:
-                0 0 0 4px rgba(79,143,114,.08);
-        }
-
-        textarea {
-            min-height: 90px;
-
-            resize: vertical;
-        }
-
-        select {
+            appearance: none;
+            -webkit-appearance: none;
             cursor: pointer;
+            padding-right: 42px;
         }
 
-        .section-label {
-            display: flex;
-            align-items: center;
-
-            gap: 8px;
-
+        .form-group small {
+            display: block;
             margin-top: 6px;
-            margin-bottom: -3px;
-
-            font-family: 'Baloo 2', sans-serif;
-
-            font-size: 19px;
-
-            font-weight: 700;
-
-            color: var(--green-dark);
-        }
-
-        .section-label::before {
-            content: "";
-
-            width: 7px;
-            height: 23px;
-
-            border-radius: 10px;
-
-            background: var(--orange);
-        }
-
-        .location-note {
-            margin-top: -4px;
-
-            padding: 10px 13px;
-
-            border-radius: 12px;
-
-            background: #f1f8f3;
-
-            color: #61736a;
-
             font-size: 12px;
-
-            line-height: 1.5;
+            color: #8a918e;
         }
 
-        .submit-btn {
+        .location-loading {
+            font-size: 12px;
+            color: #4f8f78;
+            margin-top: 6px;
+            display: none;
+        }
+
+        .location-error {
+            display: none;
             margin-top: 7px;
-
-            border: none;
-
-            border-radius: 14px;
-
-            padding: 14px 20px;
-
-            background: var(--green);
-
-            color: white;
-
-            font-family: 'Nunito', sans-serif;
-
-            font-size: 15px;
-
-            font-weight: 800;
-
-            cursor: pointer;
-
-            box-shadow:
-                0 9px 20px rgba(79,143,114,.22);
-
-            transition: .2s;
+            font-size: 12px;
+            color: #c85f4d;
         }
 
-        .submit-btn:hover {
-            background: var(--green-dark);
-
-            transform: translateY(-1px);
+        .school-input {
+            position: relative;
         }
 
-        .login-link {
-            text-align: center;
-
-            margin-top: 2px;
-
-            font-size: 13px;
-
-            color: var(--muted);
+        .school-input input {
+            padding-left: 44px;
         }
 
-        .login-link a {
-            color: var(--green-dark);
-
-            font-weight: 800;
-
-            text-decoration: none;
+        .school-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 17px;
+            pointer-events: none;
         }
 
-        .login-link a:hover {
-            text-decoration: underline;
-        }
-
-        @media (max-width: 850px) {
-
-            body {
-                padding: 20px 13px;
-            }
-
-            .page {
-                grid-template-columns: 1fr;
-
-                max-width: 650px;
-
-                border-radius: 24px;
-            }
-
-            .intro {
-                padding: 35px 28px;
-            }
-
-            .intro h1 {
-                font-size: 42px;
-            }
-
-            .intro p {
-                max-width: none;
-            }
-
-            .mini-list {
-                display: grid;
-
-                grid-template-columns: 1fr 1fr;
-            }
-
-            .form-area {
-                padding: 32px 27px;
-            }
-        }
-
-        @media (max-width: 520px) {
-
-            body {
-                padding: 10px;
-            }
-
-            .page {
-                border-radius: 20px;
-            }
-
-            .intro {
-                padding: 28px 22px;
-            }
-
-            .logo {
-                margin-bottom: 20px;
-            }
-
-            .logo-text {
-                font-size: 25px;
-            }
-
-            .intro h1 {
-                font-size: 38px;
-            }
-
-            .intro p {
-                font-size: 14px;
-            }
-
-            .mini-list {
-                grid-template-columns: 1fr;
-
-                margin-top: 23px;
-            }
-
-            .form-area {
-                padding: 27px 20px;
-            }
-
-            .form-title h2 {
-                font-size: 28px;
-            }
-
+        @media (max-width: 600px) {
             .form-row {
                 grid-template-columns: 1fr;
-
-                gap: 17px;
+                gap: 0;
             }
 
-            input,
-            select,
-            textarea {
-                font-size: 14px;
-
-                padding: 12px;
+            .auth-box {
+                width: calc(100% - 30px);
             }
         }
-
     </style>
 </head>
 
-<body>
+<body class="auth-page">
 
-<div class="page">
+<nav class="navbar">
+    <div class="nav-container">
 
-    <!-- =========================================
-         INTRO
-    ========================================== -->
+        <a href="index.php" class="brand">
+            <span class="brand-icon">✦</span>
+            <span>EduStory</span>
+        </a>
 
-    <section class="intro">
+        <a href="index.php" class="back-home">
+            ← Beranda
+        </a>
 
-        <div class="logo">
+    </div>
+</nav>
 
-            <div class="logo-icon">
-                ✦
+
+<main class="auth-wrapper">
+    <?php if (isset($_SESSION['pesan'])): ?>
+
+    <div class="form-message">
+        <?php
+        echo htmlspecialchars($_SESSION['pesan']);
+        unset($_SESSION['pesan']);
+        ?>
+    </div>
+
+<?php endif; ?>
+
+
+    <div class="auth-decoration decoration-left">
+        <span>✦</span>
+    </div>
+
+    <div class="auth-decoration decoration-right">
+        <span>✎</span>
+    </div>
+
+
+    <div class="auth-box">
+
+        <div class="auth-heading">
+
+            <div class="auth-icon">
+                ✎
             </div>
 
-            <div class="logo-text">
-                EduStory
-            </div>
+            <span class="section-label">
+                MULAI DI SINI
+            </span>
 
-        </div>
-
-        <div class="intro-content">
-
-            <h1>
-                Ceritakan<br>
-                <span>Sekolahmu.</span>
-            </h1>
+            <h1>Buat akun baru</h1>
 
             <p>
-                Buat artikel sekolah dengan lebih mudah.
-                Lengkapi data sekolahmu sekali, lalu gunakan
-                EduStory untuk membuat berbagai cerita dan
-                informasi tentang sekolah.
-            </p>
-
-            <div class="mini-list">
-
-                <div class="mini-item">
-                    <div class="mini-icon">✓</div>
-                    Data sekolah tersimpan
-                </div>
-
-                <div class="mini-item">
-                    <div class="mini-icon">⌂</div>
-                    Pilih wilayah sekolah
-                </div>
-
-                <div class="mini-item">
-                    <div class="mini-icon">✎</div>
-                    Buat artikel lebih mudah
-                </div>
-
-                <div class="mini-item">
-                    <div class="mini-icon">★</div>
-                    Cocok untuk berbagai jenjang
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- =========================================
-         FORM
-    ========================================== -->
-
-    <section class="form-area">
-
-        <div class="form-title">
-
-            <h2>
-                Buat akun EduStory
-            </h2>
-
-            <p>
-                Isi data berikut untuk mulai menggunakan EduStory.
+                Isi data singkat tentang kamu dan sekolahmu
+                untuk mulai menggunakan EduStory.
             </p>
 
         </div>
 
 
-        <?php if (!empty($error)): ?>
+        <form action="proses/proses-daftar.php" method="POST" id="formDaftar">
 
-            <div class="alert">
-                <?= htmlspecialchars($error) ?>
-            </div>
+            <!-- =========================
+                 DATA AKUN
+            ========================== -->
 
-        <?php endif; ?>
-
-
-        <form
-            action="proses/proses-daftar.php"
-            method="POST"
-            autocomplete="off"
-        >
-
-            <!-- AKUN -->
-
-            <div class="section-label">
-                Akun
-            </div>
-
-            <div class="field">
-
-                <label>
-                    Mendaftar sebagai
-                    <span class="required">*</span>
-                </label>
-
-                <select name="peran" required>
-                    <option value="">Pilih peran</option>
-                    <option value="Guru">Guru</option>
-                    <option value="Kepala Sekolah">Kepala Sekolah</option>
-                    <option value="Tenaga Kependidikan">Tenaga Kependidikan</option>
-                    <option value="Siswa">Siswa</option>
-                    <option value="Alumni">Alumni</option>
-                    <option value="Orang Tua / Wali">Orang Tua / Wali</option>
-                    <option value="Lainnya">Lainnya</option>
-                </select>
-
-            </div>
-
-            <div class="form-row">
-
-                <div class="field">
-
-                    <label>
-                        Nama Lengkap
-                        <span class="required">*</span>
-                    </label>
-
-                    <input
-                        type="text"
-                        name="nama"
-                        placeholder="Nama lengkap"
-                        required
-                    >
-
-                </div>
-
-
-                <div class="field">
-
-                    <label>
-                        Email
-                        <span class="required">*</span>
-                    </label>
-
-                    <input
-                        type="email"
-                        name="email"
-                        placeholder="nama@email.com"
-                        required
-                    >
-
-                </div>
-
+            <div class="form-section-title">
+                <h3>Data akun</h3>
+                <p>Gunakan data yang bisa kamu gunakan untuk masuk.</p>
             </div>
 
 
-            <div class="field">
-
-                <label>
-                    Password
-                    <span class="required">*</span>
-                </label>
-
-                <input
-                    type="password"
-                    name="password"
-                    placeholder="Buat password"
-                    minlength="6"
-                    required
-                >
-
-            </div>
-
-
-            <!-- SEKOLAH -->
-
-            <div class="section-label">
-                Data Sekolah
-            </div>
-
-
-            <div class="field">
-
-                <label>
-                    Nama Sekolah
-                    <span class="required">*</span>
+            <div class="form-group">
+                <label for="nama">
+                    Nama Lengkap
                 </label>
 
                 <input
                     type="text"
-                    name="nama_sekolah"
-                    placeholder="Contoh: TK Nusa Indah"
+                    id="nama"
+                    name="nama"
+                    placeholder="Nama kamu"
+                    autocomplete="name"
+                    required
+                >
+            </div>
+
+
+            <div class="form-group">
+                <label for="email">
+                    Email
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="nama@email.com"
+                    autocomplete="email"
+                    required
+                >
+            </div>
+
+
+            <div class="form-group">
+                <label for="password">
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Minimal 6 karakter"
+                    minlength="6"
+                    autocomplete="new-password"
                     required
                 >
 
+                <small>Password minimal 6 karakter.</small>
             </div>
 
 
-            <div class="form-row">
+            <!-- =========================
+                 DATA SEKOLAH
+            ========================== -->
 
-                <div class="field">
-
-                    <label>
-                        Jenjang Sekolah
-                        <span class="required">*</span>
-                    </label>
-
-                    <select
-                        name="jenjang"
-                        required
-                    >
-
-                        <option value="">
-                            Pilih jenjang
-                        </option>
-
-                        <option value="PAUD">PAUD</option>
-                        <option value="TK">TK</option>
-                        <option value="SD">SD</option>
-                        <option value="MI">MI</option>
-                        <option value="SMP">SMP</option>
-                        <option value="MTs">MTs</option>
-                        <option value="SMA">SMA</option>
-                        <option value="SMK">SMK</option>
-                        <option value="MA">MA</option>
-
-                    </select>
-
-                </div>
-
-
-                <div class="field">
-
-                    <label>
-                        Alamat Sekolah
-                        <span class="required">*</span>
-                    </label>
-
-                    <input
-                        type="text"
-                        name="alamat"
-                        placeholder="Alamat sekolah"
-                        required
-                    >
-
-                </div>
-
+            <div class="form-section-title">
+                <h3>Tentang sekolahmu</h3>
+                <p>Pilih lokasi sekolah dan masukkan nama sekolah.</p>
             </div>
 
 
-            <!-- WILAYAH -->
+            <!-- PROVINSI -->
 
-            <div class="section-label">
-                Lokasi Sekolah
-            </div>
+            <div class="form-group">
 
-            <div class="location-note">
-                Pilih provinsi, kabupaten/kota, kecamatan, lalu
-                desa/kelurahan. Kode wilayah desa akan tersimpan
-                otomatis.
-            </div>
+                <label for="provinsi">
+                    Provinsi
+                </label>
 
-
-            <div class="form-row">
-
-                <div class="field">
-
-                    <label>
-                        Provinsi
-                        <span class="required">*</span>
-                    </label>
+                <div class="select-wrapper">
 
                     <select
                         id="provinsi"
@@ -879,13 +306,26 @@ $error = $_GET['error'] ?? '';
 
                 </div>
 
+                <div id="loadingProvinsi" class="location-loading">
+                    Sedang mengambil data provinsi...
+                </div>
 
-                <div class="field">
+                <div id="errorProvinsi" class="location-error">
+                    Data provinsi gagal dimuat. Coba refresh halaman.
+                </div>
 
-                    <label>
-                        Kabupaten / Kota
-                        <span class="required">*</span>
-                    </label>
+            </div>
+
+
+            <!-- KABUPATEN -->
+
+            <div class="form-group">
+
+                <label for="kabupaten">
+                    Kabupaten / Kota
+                </label>
+
+                <div class="select-wrapper">
 
                     <select
                         id="kabupaten"
@@ -902,17 +342,22 @@ $error = $_GET['error'] ?? '';
 
                 </div>
 
+                <div id="loadingKabupaten" class="location-loading">
+                    Sedang mengambil data kabupaten/kota...
+                </div>
+
             </div>
 
 
-            <div class="form-row">
+            <!-- KECAMATAN -->
 
-                <div class="field">
+            <div class="form-group">
 
-                    <label>
-                        Kecamatan
-                        <span class="required">*</span>
-                    </label>
+                <label for="kecamatan">
+                    Kecamatan
+                </label>
+
+                <div class="select-wrapper">
 
                     <select
                         id="kecamatan"
@@ -922,20 +367,29 @@ $error = $_GET['error'] ?? '';
                     >
 
                         <option value="">
-                            Pilih kabupaten terlebih dahulu
+                            Pilih kabupaten/kota terlebih dahulu
                         </option>
 
                     </select>
 
                 </div>
 
+                <div id="loadingKecamatan" class="location-loading">
+                    Sedang mengambil data kecamatan...
+                </div>
 
-                <div class="field">
+            </div>
 
-                    <label>
-                        Desa / Kelurahan
-                        <span class="required">*</span>
-                    </label>
+
+            <!-- DESA -->
+
+            <div class="form-group">
+
+                <label for="desa">
+                    Desa / Kelurahan
+                </label>
+
+                <div class="select-wrapper">
 
                     <select
                         id="desa"
@@ -952,107 +406,144 @@ $error = $_GET['error'] ?? '';
 
                 </div>
 
+                <div id="loadingDesa" class="location-loading">
+                    Sedang mengambil data desa/kelurahan...
+                </div>
+
             </div>
 
 
-            <!--
-                KODE DESA DI SINI AKAN DIISI JAVASCRIPT.
+            <!-- NAMA SEKOLAH -->
 
-                Contoh:
-                32.05.10.2003
+            <div class="form-group">
 
-                disimpan menjadi:
-                3205102003
-            -->
+                <label for="nama_sekolah">
+                    Nama Sekolah
+                </label>
 
-            <input
-                type="hidden"
-                name="kode_desa"
-                id="kode_desa"
-                value=""
-            >
+                <div class="school-input">
+
+                    <span class="school-icon">🏫</span>
+
+                    <input
+                        type="text"
+                        id="nama_sekolah"
+                        name="nama_sekolah"
+                        placeholder="Contoh: TK Nusa Indah"
+                        autocomplete="organization"
+                        required
+                    >
+
+                </div>
+
+                <small>
+                    Tulis nama sekolah secara lengkap.
+                </small>
+
+            </div>
 
 
-            <button
-                type="submit"
-                class="submit-btn"
-            >
-                Buat Akun EduStory
+            <!-- KODE WILAYAH (diisi otomatis, untuk klipaa) -->
+
+            <input type="hidden" name="kode_provinsi" id="kode_provinsi">
+            <input type="hidden" name="kode_kabupaten" id="kode_kabupaten">
+            <input type="hidden" name="kode_kecamatan" id="kode_kecamatan">
+            <input type="hidden" name="kode_desa" id="kode_desa">
+
+
+            <!-- BUTTON -->
+
+            <button type="submit" class="btn-primary btn-full" id="btnDaftar">
+
+                Buat Akun
+
+                <span>→</span>
+
             </button>
-
-
-            <div class="login-link">
-
-                Sudah punya akun?
-
-                <a href="login.php">
-                    Masuk di sini
-                </a>
-
-            </div>
 
         </form>
 
-    </section>
 
-</div>
+        <div class="auth-footer">
 
+            Sudah punya akun?
+
+            <a href="login.php">
+                Masuk di sini
+            </a>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<footer class="footer">
+
+    <p>
+        © <?php echo date('Y'); ?> EduStory · Cerita sekolah, jadi lebih mudah.
+    </p>
+
+</footer>
+
+
+<script src="assets/js/data-wilayah.js?v=<?= filemtime(__DIR__ . '/assets/js/data-wilayah.js') ?>"></script>
 
 <script>
+/*
+|--------------------------------------------------------------------------
+| API WILAYAH INDONESIA
+|--------------------------------------------------------------------------
+|
+| Alur:
+| Provinsi
+|    ↓
+| Kabupaten / Kota
+|    ↓
+| Kecamatan
+|    ↓
+| Desa / Kelurahan
+|
+*/
+
+
+
+const provinsiSelect  = document.getElementById("provinsi");
+const kabupatenSelect = document.getElementById("kabupaten");
+const kecamatanSelect = document.getElementById("kecamatan");
+const desaSelect      = document.getElementById("desa");
+
+
+const loadingProvinsi  = document.getElementById("loadingProvinsi");
+const loadingKabupaten = document.getElementById("loadingKabupaten");
+const loadingKecamatan = document.getElementById("loadingKecamatan");
+const loadingDesa      = document.getElementById("loadingDesa");
+
+const errorProvinsi = document.getElementById("errorProvinsi");
+
 
 /*
 |--------------------------------------------------------------------------
-| API EMSIFA V2
-|--------------------------------------------------------------------------
-|
-| V2 menggunakan kode wilayah administrasi bertingkat.
-|
-| Contoh:
-|
-| Provinsi  : 32
-| Kabupaten : 32.05
-| Kecamatan : 32.05.10
-| Desa      : 32.05.10.2003
-|
+| Fungsi mengambil data
 |--------------------------------------------------------------------------
 */
 
-const API = "https://www.emsifa.com/api-wilayah-indonesia/v2";
+async function ambilData(url) {
 
+    const response = await fetch(url);
 
-const provinsi = document.getElementById("provinsi");
-const kabupaten = document.getElementById("kabupaten");
-const kecamatan = document.getElementById("kecamatan");
-const desa = document.getElementById("desa");
-
-const kodeDesa = document.getElementById("kode_desa");
-
-
-/*
-|--------------------------------------------------------------------------
-| BERSIHKAN KODE
-|--------------------------------------------------------------------------
-|
-| 32.05.10.2003
-|        ↓
-| 3205102003
-|
-|--------------------------------------------------------------------------
-*/
-
-function cleanKodeWilayah(kode) {
-
-    if (!kode) {
-        return "";
+    if (!response.ok) {
+        throw new Error("Gagal mengambil data.");
     }
 
-    return String(kode).replace(/\D/g, "");
+    return await response.json();
 }
 
 
 /*
 |--------------------------------------------------------------------------
-| RESET SELECT
+| Reset dropdown
 |--------------------------------------------------------------------------
 */
 
@@ -1073,88 +564,29 @@ function resetSelect(select, text) {
 
 /*
 |--------------------------------------------------------------------------
-| AMBIL DATA API
+| Isi dropdown
 |--------------------------------------------------------------------------
 */
 
-async function getWilayah(url) {
-
-    const response = await fetch(url, {
-        method: "GET",
-        headers: {
-            "Accept": "application/json"
-        }
-    });
-
-    if (!response.ok) {
-        throw new Error(
-            "Gagal mengambil data wilayah. HTTP " +
-            response.status
-        );
-    }
-
-    const result = await response.json();
-
-    // EMSIFA V2 mengembalikan:
-    // { data: [...], meta: {...} }
-
-    if (!result || !Array.isArray(result.data)) {
-        throw new Error(
-            "Format data wilayah tidak valid."
-        );
-    }
-
-    return result.data;
-}
-
-/*
-|--------------------------------------------------------------------------
-| MASUKKAN DATA KE SELECT
-|--------------------------------------------------------------------------
-*/
-
-function fillSelect(select, data, placeholder) {
-
-    select.innerHTML = "";
-
-    const firstOption = document.createElement("option");
-
-    firstOption.value = "";
-    firstOption.textContent = placeholder;
-
-    select.appendChild(firstOption);
-
-
-    if (!Array.isArray(data)) {
-
-        throw new Error(
-            "Format data wilayah tidak valid."
-        );
-
-    }
-
+function isiSelect(select, data) {
 
     data.forEach(item => {
 
         const option = document.createElement("option");
 
+        option.value = item.name;
+        option.textContent = item.name;
+
         /*
-         * EMSIFA V2:
-         *
-         * item.id
-         * item.name
-         *
-         * ID sudah berupa kode wilayah bertingkat.
+         * ID wilayah disimpan agar bisa digunakan
+         * untuk mengambil wilayah berikutnya.
          */
 
-        option.value = item.id;
-
-        option.textContent = item.name;
+        option.dataset.id = item.id;
 
         select.appendChild(option);
 
     });
-
 
     select.disabled = false;
 }
@@ -1168,41 +600,44 @@ function fillSelect(select, data, placeholder) {
 
 async function loadProvinsi() {
 
+    loadingProvinsi.style.display = "block";
+    errorProvinsi.style.display = "none";
+
     try {
 
-        provinsi.disabled = true;
+        const data = await dataWilayah.provinsi();
 
-        provinsi.innerHTML =
-            '<option value="">Memuat provinsi...</option>';
+        provinsiSelect.innerHTML =
+            '<option value="">Pilih provinsi</option>';
 
+        data.forEach(item => {
 
-        const data = await getWilayah(
-            `${API}/provinces.json`
-        );
+            const option = document.createElement("option");
 
+            option.value = item.name;
+            option.textContent = item.name;
+            option.dataset.id = item.id;
 
-        fillSelect(
-            provinsi,
-            data,
-            "Pilih provinsi"
-        );
+            provinsiSelect.appendChild(option);
 
+        });
+
+        provinsiSelect.disabled = false;
 
     } catch (error) {
 
-        console.error(
-            "ERROR PROVINSI:",
-            error
-        );
+        console.error(error);
 
-
-        provinsi.innerHTML =
+        provinsiSelect.innerHTML =
             '<option value="">Gagal memuat provinsi</option>';
 
-        provinsi.disabled = true;
+        errorProvinsi.style.display = "block";
+
+    } finally {
+
+        loadingProvinsi.style.display = "none";
 
     }
-
 }
 
 
@@ -1212,77 +647,69 @@ async function loadProvinsi() {
 |--------------------------------------------------------------------------
 */
 
-provinsi.addEventListener(
-    "change",
-    async function () {
+provinsiSelect.addEventListener("change", async function() {
 
-        const kodeProvinsi = this.value;
+    const idProvinsi =
+        this.options[this.selectedIndex].dataset.id;
 
+
+    resetSelect(
+        kabupatenSelect,
+        "Memuat kabupaten/kota..."
+    );
+
+    resetSelect(
+        kecamatanSelect,
+        "Pilih kabupaten/kota terlebih dahulu"
+    );
+
+    resetSelect(
+        desaSelect,
+        "Pilih kecamatan terlebih dahulu"
+    );
+
+
+    if (!idProvinsi) {
 
         resetSelect(
-            kabupaten,
-            "Memuat kabupaten / kota..."
+            kabupatenSelect,
+            "Pilih provinsi terlebih dahulu"
         );
 
-
-        resetSelect(
-            kecamatan,
-            "Pilih kabupaten / kota terlebih dahulu"
-        );
-
-
-        resetSelect(
-            desa,
-            "Pilih kecamatan terlebih dahulu"
-        );
-
-
-        kodeDesa.value = "";
-
-
-        if (!kodeProvinsi) {
-
-            resetSelect(
-                kabupaten,
-                "Pilih provinsi terlebih dahulu"
-            );
-
-            return;
-
-        }
-
-
-        try {
-
-            const data = await getWilayah(
-                `${API}/regencies/${kodeProvinsi}.json`
-            );
-
-
-            fillSelect(
-                kabupaten,
-                data,
-                "Pilih kabupaten / kota"
-            );
-
-
-        } catch (error) {
-
-            console.error(
-                "ERROR KABUPATEN:",
-                error
-            );
-
-
-            resetSelect(
-                kabupaten,
-                "Gagal memuat kabupaten / kota"
-            );
-
-        }
+        return;
 
     }
-);
+
+
+    loadingKabupaten.style.display = "block";
+
+
+    try {
+
+        const data = await dataWilayah.kabupaten(idProvinsi);
+
+        kabupatenSelect.innerHTML =
+            '<option value="">Pilih kabupaten/kota</option>';
+
+        isiSelect(
+            kabupatenSelect,
+            data
+        );
+
+    } catch (error) {
+
+        console.error(error);
+
+        kabupatenSelect.innerHTML =
+            '<option value="">Gagal memuat data</option>';
+
+    } finally {
+
+        loadingKabupaten.style.display = "none";
+
+    }
+
+});
 
 
 /*
@@ -1291,242 +718,193 @@ provinsi.addEventListener(
 |--------------------------------------------------------------------------
 */
 
-kabupaten.addEventListener(
-    "change",
-    async function () {
+kabupatenSelect.addEventListener("change", async function() {
 
-        const kodeKabupaten = this.value;
+    const idKabupaten =
+        this.options[this.selectedIndex].dataset.id;
 
 
-        resetSelect(
-            kecamatan,
-            "Memuat kecamatan..."
-        );
+    resetSelect(
+        kecamatanSelect,
+        "Memuat kecamatan..."
+    );
 
-
-        resetSelect(
-            desa,
-            "Pilih kecamatan terlebih dahulu"
-        );
-
-
-        kodeDesa.value = "";
-
-
-        if (!kodeKabupaten) {
-
-            resetSelect(
-                kecamatan,
-                "Pilih kabupaten / kota terlebih dahulu"
-            );
-
-            return;
-
-        }
-
-
-        try {
-
-            const data = await getWilayah(
-                `${API}/districts/${kodeKabupaten}.json`
-            );
-
-
-            fillSelect(
-                kecamatan,
-                data,
-                "Pilih kecamatan"
-            );
-
-
-        } catch (error) {
-
-            console.error(
-                "ERROR KECAMATAN:",
-                error
-            );
-
-
-            resetSelect(
-                kecamatan,
-                "Gagal memuat kecamatan"
-            );
-
-        }
-
-    }
-);
-
-
-/*
-|--------------------------------------------------------------------------
-| KECAMATAN → DESA
-|--------------------------------------------------------------------------
-*/
-
-kecamatan.addEventListener(
-    "change",
-    async function () {
-
-        const kodeKecamatan = this.value;
-
-
-        resetSelect(
-            desa,
-            "Memuat desa / kelurahan..."
-        );
-
-
-        kodeDesa.value = "";
-
-
-        if (!kodeKecamatan) {
-
-            resetSelect(
-                desa,
-                "Pilih kecamatan terlebih dahulu"
-            );
-
-            return;
-
-        }
-
-
-        try {
-
-            const data = await getWilayah(
-                `${API}/villages/${kodeKecamatan}.json`
-            );
-
-
-            fillSelect(
-                desa,
-                data,
-                "Pilih desa / kelurahan"
-            );
-
-
-        } catch (error) {
-
-            console.error(
-                "ERROR DESA:",
-                error
-            );
-
-
-            resetSelect(
-                desa,
-                "Gagal memuat desa / kelurahan"
-            );
-
-        }
-
-    }
-);
-
-
-/*
-|--------------------------------------------------------------------------
-| DESA DIPILIH
-|--------------------------------------------------------------------------
-*/
-
-desa.addEventListener(
-    "change",
-    function () {
-
-        const kode = this.value;
-
-
-        /*
-         * Contoh:
-         *
-         * 32.05.10.2003
-         *
-         * menjadi:
-         *
-         * 3205102003
-         */
-
-        kodeDesa.value =
-            cleanKodeWilayah(kode);
-
-
-        console.log(
-            "Kode desa terpilih:",
-            kode
-        );
-
-
-        console.log(
-            "Kode desa untuk database:",
-            kodeDesa.value
-        );
-
-    }
-);
-
-
-/*
-|--------------------------------------------------------------------------
-| VALIDASI SEBELUM SUBMIT
-|--------------------------------------------------------------------------
-*/
-
-document
-    .querySelector("form")
-    .addEventListener(
-        "submit",
-        function (event) {
-
-            const kode =
-                kodeDesa.value.trim();
-
-
-            if (!kode) {
-
-                event.preventDefault();
-
-                alert(
-                    "Silakan pilih desa / kelurahan terlebih dahulu."
-                );
-
-                desa.focus();
-
-                return;
-
-            }
-
-
-            if (!/^\d{10}$/.test(kode)) {
-
-                event.preventDefault();
-
-                alert(
-                    "Kode wilayah desa tidak valid. Silakan pilih desa / kelurahan kembali."
-                );
-
-                desa.focus();
-
-                return;
-
-            }
-
-        }
+    resetSelect(
+        desaSelect,
+        "Pilih kecamatan terlebih dahulu"
     );
 
 
+    if (!idKabupaten) {
+
+        resetSelect(
+            kecamatanSelect,
+            "Pilih kabupaten/kota terlebih dahulu"
+        );
+
+        return;
+
+    }
+
+
+    loadingKecamatan.style.display = "block";
+
+
+    try {
+
+        const data = await dataWilayah.kecamatan(idKabupaten);
+
+        kecamatanSelect.innerHTML =
+            '<option value="">Pilih kecamatan</option>';
+
+        isiSelect(
+            kecamatanSelect,
+            data
+        );
+
+    } catch (error) {
+
+        console.error(error);
+
+        kecamatanSelect.innerHTML =
+            '<option value="">Gagal memuat data</option>';
+
+    } finally {
+
+        loadingKecamatan.style.display = "none";
+
+    }
+
+});
+
+
 /*
 |--------------------------------------------------------------------------
-| MULAI LOAD PROVINSI
+| KECAMATAN → DESA / KELURAHAN
+|--------------------------------------------------------------------------
+*/
+
+kecamatanSelect.addEventListener("change", async function() {
+
+    const idKecamatan =
+        this.options[this.selectedIndex].dataset.id;
+
+
+    resetSelect(
+        desaSelect,
+        "Memuat desa/kelurahan..."
+    );
+
+
+    if (!idKecamatan) {
+
+        resetSelect(
+            desaSelect,
+            "Pilih kecamatan terlebih dahulu"
+        );
+
+        return;
+
+    }
+
+
+    loadingDesa.style.display = "block";
+
+
+    try {
+
+        const data = await dataWilayah.desa(idKecamatan);
+
+        desaSelect.innerHTML =
+            '<option value="">Pilih desa/kelurahan</option>';
+
+        isiSelect(
+            desaSelect,
+            data
+        );
+
+    } catch (error) {
+
+        console.error(error);
+
+        desaSelect.innerHTML =
+            '<option value="">Gagal memuat data</option>';
+
+    } finally {
+
+        loadingDesa.style.display = "none";
+
+    }
+
+});
+
+
+/*
+|--------------------------------------------------------------------------
+| Jalankan saat halaman dibuka
 |--------------------------------------------------------------------------
 */
 
 loadProvinsi();
 
+
+/*
+|--------------------------------------------------------------------------
+| Cegah submit kalau wilayah belum lengkap
+|--------------------------------------------------------------------------
+*/
+
+document.getElementById("formDaftar").addEventListener("submit", function(event) {
+
+    if (
+        !provinsiSelect.value ||
+        !kabupatenSelect.value ||
+        !kecamatanSelect.value ||
+        !desaSelect.value
+    ) {
+
+        event.preventDefault();
+
+        alert(
+            "Silakan lengkapi Provinsi, Kabupaten/Kota, Kecamatan, dan Desa/Kelurahan terlebih dahulu."
+        );
+
+    }
+
+});
 </script>
 
-<script src="assets/js/password.js"></script>
+
+<script>
+/*
+| Simpan kode wilayah dari pilihan dropdown ke kolom tersembunyi.
+| Kode ini dipakai untuk menyambung artikel ke klipaa.
+*/
+(function () {
+
+    var urutan = ['provinsi', 'kabupaten', 'kecamatan', 'desa'];
+
+    urutan.forEach(function (nama, i) {
+
+        var pilihan = document.getElementById(nama);
+        var kode = document.getElementById('kode_' + nama);
+
+        if (!pilihan || !kode) return;
+
+        pilihan.addEventListener('change', function () {
+
+            var opsi = pilihan.options[pilihan.selectedIndex];
+            kode.value = (opsi && opsi.dataset.id) ? opsi.dataset.id : '';
+
+            // Pilihan di atasnya berubah, kode di bawahnya tidak berlaku lagi.
+            for (var j = i + 1; j < urutan.length; j++) {
+                document.getElementById('kode_' + urutan[j]).value = '';
+            }
+        });
+    });
+
+})();
+</script>
 
 </body>
 </html>

@@ -148,12 +148,16 @@ function tampilkanField(array $f, $nilaiLama): void
 
     <div class="nav-container">
 
-        <a href="dashboard.php" class="brand">
-            <span class="brand-icon">✦</span>
-            <span>EduStory</span>
-        </a>
+        <div class="nav-left">
 
-        <a href="dashboard.php" class="back-home">← Kembali ke beranda</a>
+            <a href="dashboard.php" class="back-home">← Kembali ke beranda</a>
+
+            <a href="dashboard.php" class="brand">
+                <span class="brand-icon">✦</span>
+                <span>EduStory</span>
+            </a>
+
+        </div>
 
     </div>
 

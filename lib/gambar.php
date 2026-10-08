@@ -146,10 +146,7 @@ function simpanFotoUnggahan(mysqli $k, int $artikelId, ?array $berkas): array
                  VALUES (?, ?, ?, ?, ?)"
             );
 
-            /* Data biner dikirim lewat send_long_data agar utuh (tidak terpotong/berubah). */
-            $kosong = null;
-            $stmt->bind_param("issbi", $artikelId, $token, $mimeBaru, $kosong, $urutan);
-            $stmt->send_long_data(3, $data);
+            $stmt->bind_param("isssi", $artikelId, $token, $mimeBaru, $data, $urutan);
             $stmt->execute();
             $stmt->close();
 

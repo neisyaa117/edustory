@@ -20,22 +20,11 @@ if (!$artikel) {
 $sekolah = ambilSekolah($koneksi, $userId) ?: [];
 
 $stmt = $koneksi->prepare(
-    "SELECT id, token, mime, data FROM artikel_gambar WHERE artikel_id = ? ORDER BY urutan, id"
+    "SELECT id, token FROM artikel_gambar WHERE artikel_id = ? ORDER BY urutan, id"
 );
 $stmt->bind_param("i", $id);
 $stmt->execute();
 $fotoDaftar = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
-
-/* Foto dikirim langsung di dalam halaman (data URI), supaya tidak bergantung pada
-   permintaan terpisah yang bisa dicegat pemeriksaan anti-bot hosting gratis. */
-foreach ($fotoDaftar as &$fotoItem) {
-    $fotoItem['src'] = strlen((string) $fotoItem['data']) > 0
-        ? 'data:' . $fotoItem['mime'] . ';base64,' . base64_encode($fotoItem['data'])
-        : '';
-    unset($fotoItem['data']);
-}
-unset($fotoItem);
-$fotoDaftar = array_values(array_filter($fotoDaftar, fn($f) => $f['src'] !== ''));
 $stmt->close();
 
 $info = $_SESSION['info_artikel'][$id] ?? '';
@@ -62,7 +51,6 @@ $lokasi = array_filter([
 ]);
 
 $kodeDesa  = $sekolah['kode_desa'] ?? '';
-$kodeDesaTampil = formatKodeWilayah($kodeDesa);
 $linkKlipaa = klipaaLinkArtikel($kodeDesa);
 
 $judulHalaman = $selesai ? $artikel['judul'] : 'Artikel ' . $artikel['jenis_nama'];
@@ -100,12 +88,16 @@ $judulHalaman = $selesai ? $artikel['judul'] : 'Artikel ' . $artikel['jenis_nama
 
     <div class="nav-container">
 
-        <a href="dashboard.php" class="brand">
-            <span class="brand-icon">✦</span>
-            <span>EduStory</span>
-        </a>
+        <div class="nav-left">
 
-        <a href="dashboard.php" class="back-home">← Kembali ke beranda</a>
+            <a href="dashboard.php" class="back-home">← Kembali ke beranda</a>
+
+            <a href="dashboard.php" class="brand">
+                <span class="brand-icon">✦</span>
+                <span>EduStory</span>
+            </a>
+
+        </div>
 
     </div>
 
@@ -151,7 +143,7 @@ $judulHalaman = $selesai ? $artikel['judul'] : 'Artikel ' . $artikel['jenis_nama
 
                 <figure class="foto-utama">
                     <img
-                        src="<?= e($fotoDaftar[0]['src']) ?>"
+                        src="gambar.php?t=<?= e($fotoDaftar[0]['token']) ?>"
                         alt="Foto pendukung artikel <?= e($artikel['judul']) ?>"
                     >
                 </figure>
@@ -170,7 +162,7 @@ $judulHalaman = $selesai ? $artikel['judul'] : 'Artikel ' . $artikel['jenis_nama
                     <?php foreach (array_slice($fotoDaftar, 1) as $urut => $foto): ?>
                         <figure>
                             <img
-                                src="<?= e($foto['src']) ?>"
+                                src="gambar.php?t=<?= e($foto['token']) ?>"
                                 alt="Foto pendukung <?= $urut + 2 ?> artikel <?= e($artikel['judul']) ?>"
                                 loading="lazy"
                             >
@@ -186,7 +178,6 @@ $judulHalaman = $selesai ? $artikel['judul'] : 'Artikel ' . $artikel['jenis_nama
         <aside class="aksi" aria-label="Pindahkan artikel">
 
             <h2>Pindahkan ke klipaa</h2>
-            <p class="aksi-catatan">Untuk sementara, salin dulu lalu tempel di klipaa. Sambungan otomatis belum tersedia.</p>
 
             <div class="aksi-tombol">
 
@@ -209,7 +200,7 @@ $judulHalaman = $selesai ? $artikel['judul'] : 'Artikel ' . $artikel['jenis_nama
                     <ul class="aksi-foto">
                         <?php foreach ($fotoDaftar as $urut => $foto): ?>
                             <li>
-                                <a href="<?= e($foto['src']) ?>" download="foto-<?= $urut + 1 ?>.jpg">
+                                <a href="gambar.php?t=<?= e($foto['token']) ?>&amp;unduh=1" download>
                                     Unduh foto <?= $urut + 1 ?>
                                 </a>
                             </li>
@@ -227,7 +218,7 @@ $judulHalaman = $selesai ? $artikel['judul'] : 'Artikel ' . $artikel['jenis_nama
                 <?php if ($kodeDesa): ?>
 
                     <p class="kode-desa">
-                        <code id="kodeDesa"><?= e($kodeDesaTampil) ?></code>
+                        <code id="kodeDesa"><?= e($kodeDesa) ?></code>
                         <button type="button" class="btn-kecil" data-salin="kode">Salin</button>
                     </p>
 

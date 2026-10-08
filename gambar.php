@@ -29,15 +29,12 @@ if (!$foto) {
 $ekstensi = $foto['mime'] === 'image/png' ? 'png' : ($foto['mime'] === 'image/webp' ? 'webp' : 'jpg');
 
 header('Content-Type: ' . $foto['mime']);
+header('Content-Length: ' . strlen($foto['data']));
 header('X-Content-Type-Options: nosniff');
 header('Cache-Control: public, max-age=604800, immutable');
 
 if (isset($_GET['unduh'])) {
     header('Content-Disposition: attachment; filename="foto-' . substr($token, 0, 8) . '.' . $ekstensi . '"');
-}
-
-while (ob_get_level() > 0) {
-    ob_end_clean();
 }
 
 echo $foto['data'];
