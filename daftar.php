@@ -382,6 +382,39 @@ $error = $_GET['error'] ?? '';
             resize: vertical;
         }
 
+        .input-sandi {
+            position: relative;
+        }
+
+        .input-sandi input {
+            padding-right: 44px;
+        }
+
+        .toggle-sandi {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+
+            width: auto;
+            background: none;
+            border: 0;
+            padding: 4px;
+
+            font-size: 17px;
+            line-height: 1;
+            color: #7a8a80;
+            cursor: pointer;
+        }
+
+        .toggle-sandi:hover {
+            color: var(--ink);
+        }
+
+        .toggle-sandi[aria-pressed="true"] {
+            color: var(--green);
+        }
+
         select {
             cursor: pointer;
         }
