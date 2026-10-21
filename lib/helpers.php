@@ -125,6 +125,37 @@ function setKlipaaArtikel(mysqli $k, int $artikelId, bool $sudahKirim): bool
     return $ok;
 }
 
+/*
+| Hapus satu artikel beserta foto-fotonya. Dipakai dari admin.php.
+| Tidak ada FOREIGN KEY ON DELETE CASCADE di skema databasenya, jadi
+| artikel_gambar dihapus dulu secara manual sebelum artikelnya sendiri,
+| dibungkus transaksi supaya tidak ada yang tersisa setengah jalan.
+*/
+function hapusArtikel(mysqli $k, int $artikelId): bool
+{
+    $k->begin_transaction();
+
+    try {
+        $stmt = $k->prepare("DELETE FROM artikel_gambar WHERE artikel_id = ?");
+        $stmt->bind_param("i", $artikelId);
+        $stmt->execute();
+        $stmt->close();
+
+        $stmt = $k->prepare("DELETE FROM artikel WHERE id = ?");
+        $stmt->bind_param("i", $artikelId);
+        $stmt->execute();
+        $stmt->close();
+
+        $k->commit();
+        return true;
+
+    } catch (Throwable $e) {
+        $k->rollback();
+        error_log('Gagal menghapus artikel #' . $artikelId . ': ' . $e->getMessage());
+        return false;
+    }
+}
+
 
 function daftarJenisArtikel(): array
 {

@@ -81,13 +81,28 @@ if (!$sudahMasuk && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['kata_
 }
 
 // Tandai/batalkan status kirim-klipaa (hanya setelah masuk).
-if ($sudahMasuk && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['tandai_klipaa'])) {
+if ($sudahMasuk && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['tandai_klipaa'])
+    && csrfValid($_POST['csrf'] ?? '')) {
 
     $artikelId   = (int) ($_POST['artikel_id'] ?? 0);
     $sudahKirim  = $_POST['tandai_klipaa'] === '1';
 
     if ($artikelId > 0) {
         setKlipaaArtikel($koneksi, $artikelId, $sudahKirim);
+    }
+
+    header('Location: admin.php' . (isset($_GET['hal']) ? '?hal=' . (int) $_GET['hal'] : ''));
+    exit;
+}
+
+// Hapus artikel (hanya setelah masuk, dan hanya lewat form -- bukan link biasa).
+if ($sudahMasuk && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['hapus_artikel'])
+    && csrfValid($_POST['csrf'] ?? '')) {
+
+    $artikelId = (int) ($_POST['artikel_id'] ?? 0);
+
+    if ($artikelId > 0) {
+        hapusArtikel($koneksi, $artikelId);
     }
 
     header('Location: admin.php' . (isset($_GET['hal']) ? '?hal=' . (int) $_GET['hal'] : ''));
@@ -331,6 +346,7 @@ if ($artikelList) {
                             <form method="POST">
                                 <input type="hidden" name="artikel_id" value="<?= (int) $a['id'] ?>">
                                 <input type="hidden" name="tandai_klipaa" value="0">
+                                <input type="hidden" name="csrf" value="<?= e(csrfToken()) ?>">
                                 <button type="submit" class="btn-garis admin-btn-kecil">Batalkan tanda</button>
                             </form>
                         <?php else: ?>
@@ -338,10 +354,19 @@ if ($artikelList) {
                             <form method="POST">
                                 <input type="hidden" name="artikel_id" value="<?= (int) $a['id'] ?>">
                                 <input type="hidden" name="tandai_klipaa" value="1">
+                                <input type="hidden" name="csrf" value="<?= e(csrfToken()) ?>">
                                 <button type="submit" class="btn-primary admin-btn-kecil">Tandai sudah</button>
                             </form>
                         <?php endif; ?>
+
                         <a href="artikel.php?id=<?= (int) $a['id'] ?>" class="admin-artikel-buka">Buka artikel →</a>
+
+                        <form method="POST" class="admin-form-hapus" data-konfirmasi-hapus data-judul="<?= e($a['judul'] ?: 'artikel ini') ?>">
+                            <input type="hidden" name="artikel_id" value="<?= (int) $a['id'] ?>">
+                            <input type="hidden" name="hapus_artikel" value="1">
+                            <input type="hidden" name="csrf" value="<?= e(csrfToken()) ?>">
+                            <button type="submit" class="admin-btn-hapus">Hapus artikel</button>
+                        </form>
                     </div>
 
                 </div>
@@ -364,6 +389,17 @@ if ($artikelList) {
 <footer class="footer">
     <p>© <?= date('Y') ?> EduStory</p>
 </footer>
+
+<script>
+document.querySelectorAll('[data-konfirmasi-hapus]').forEach(function (form) {
+    form.addEventListener('submit', function (e) {
+        var judul = form.getAttribute('data-judul') || 'artikel ini';
+        if (!confirm('Hapus "' + judul + '"? Foto dan isinya ikut terhapus, tidak bisa dikembalikan.')) {
+            e.preventDefault();
+        }
+    });
+});
+</script>
 
 </body>
 </html>
