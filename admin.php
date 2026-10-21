@@ -205,6 +205,33 @@ $jumlahSekolah = hitung($koneksi, "SELECT COUNT(*) FROM sekolah");
 $jumlahArtikel = hitung($koneksi, "SELECT COUNT(*) FROM artikel");
 $jumlahKlipaa  = hitung($koneksi, "SELECT COUNT(*) FROM artikel WHERE dikirim_klipaa = 1");
 
+// Akun yang sudah daftar, beserta data sekolahnya. Dipaginasi sendiri,
+// terpisah dari paginasi artikel di bawah.
+$halAkun      = max(1, (int) ($_GET['hal_akun'] ?? 1));
+$perHalAkun   = 20;
+$offsetAkun   = ($halAkun - 1) * $perHalAkun;
+$jumlahHalAkun = (int) ceil($jumlahAkun / $perHalAkun);
+
+$akunList  = [];
+$galatAkun = null;
+try {
+    $stmt = $koneksi->prepare(
+        "SELECT u.id, u.nama, u.email, u.dibuat_pada,
+                s.nama_sekolah, s.jenjang, s.provinsi, s.kabupaten, s.kecamatan, s.desa
+         FROM users u
+         LEFT JOIN sekolah s ON s.user_id = u.id
+         ORDER BY u.id DESC
+         LIMIT ? OFFSET ?"
+    );
+    $stmt->bind_param("ii", $perHalAkun, $offsetAkun);
+    $stmt->execute();
+    $akunList = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    $stmt->close();
+} catch (Throwable $e) {
+    $galatAkun = $e->getMessage();
+    error_log('Admin gagal mengambil daftar akun: ' . $galatAkun);
+}
+
 // Paginasi sederhana: 20 artikel terbaru per halaman.
 $halaman    = max(1, (int) ($_GET['hal'] ?? 1));
 $perHalaman = 20;
@@ -214,7 +241,7 @@ $artikelList  = [];
 $galatArtikel = null;
 try {
     $stmt = $koneksi->prepare(
-        "SELECT a.id, a.jenis_nama, a.judul, a.status, a.pesan_error,
+        "SELECT a.id, a.jenis_nama, a.judul, a.isi, a.status, a.pesan_error,
                 a.dikirim_klipaa, a.dikirim_pada, a.dibuat_pada,
                 s.nama_sekolah
          FROM artikel a
@@ -298,6 +325,62 @@ if ($artikelList) {
         <div class="school-mini-card"><strong><?= $jumlahKlipaa ?></strong><div>Sudah ke klipaa</div></div>
     </div>
 
+    <h2>Akun & sekolah</h2>
+
+    <?php if (!$akunList && $galatAkun): ?>
+        <p style="color:#b00020;">Daftar akun gagal dimuat (database bilang: <?= e($galatAkun) ?>).</p>
+    <?php elseif (!$akunList): ?>
+        <p>Belum ada akun yang daftar.</p>
+    <?php else: ?>
+
+        <div class="admin-tabel-bungkus">
+            <table class="admin-tabel">
+                <thead>
+                    <tr>
+                        <th>Guru</th>
+                        <th>Sekolah</th>
+                        <th>Jenjang</th>
+                        <th>Wilayah</th>
+                        <th>Daftar sejak</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($akunList as $u): ?>
+                        <tr>
+                            <td>
+                                <strong><?= e($u['nama']) ?></strong>
+                                <div class="admin-artikel-meta"><?= e($u['email']) ?></div>
+                            </td>
+                            <td><?= e($u['nama_sekolah'] ?: '-') ?></td>
+                            <td><?= e($u['jenjang'] ?: '-') ?></td>
+                            <td>
+                                <?php
+                                    $bagianWilayah = array_filter([
+                                        rapikanWilayah($u['kecamatan'] ?? ''),
+                                        rapikanWilayah($u['kabupaten'] ?? ''),
+                                        rapikanWilayah($u['provinsi'] ?? ''),
+                                    ]);
+                                ?>
+                                <?= $bagianWilayah ? e(implode(', ', $bagianWilayah)) : '-' ?>
+                            </td>
+                            <td><?= e(date('d M Y', strtotime($u['dibuat_pada']))) ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="admin-paginasi">
+            <?php if ($halAkun > 1): ?>
+                <a href="?hal_akun=<?= $halAkun - 1 ?>#akun" class="btn-garis">← Sebelumnya</a>
+            <?php endif; ?>
+            <?php if ($halAkun < $jumlahHalAkun): ?>
+                <a href="?hal_akun=<?= $halAkun + 1 ?>#akun" class="btn-garis">Berikutnya →</a>
+            <?php endif; ?>
+        </div>
+
+    <?php endif; ?>
+
     <h2>Artikel</h2>
 
     <?php if (!$artikelList && $galatArtikel): ?>
@@ -337,6 +420,10 @@ if ($artikelList) {
                         <?php if ($a['status'] === 'gagal' && $a['pesan_error']): ?>
                             <div class="admin-artikel-error"><?= e($a['pesan_error']) ?></div>
                         <?php endif; ?>
+
+                        <?php if (!empty($a['isi'])): ?>
+                            <button type="button" class="admin-lihat-isi" data-modal="isi-<?= (int) $a['id'] ?>">Lihat isi →</button>
+                        <?php endif; ?>
                     </div>
 
                     <div class="admin-artikel-klipaa">
@@ -370,6 +457,19 @@ if ($artikelList) {
                     </div>
 
                 </div>
+
+                <?php if (!empty($a['isi'])): ?>
+                    <dialog class="buku-modal admin-isi-modal" id="isi-<?= (int) $a['id'] ?>">
+                        <article class="buku">
+                            <button type="button" class="buku-tutup" data-tutup-modal aria-label="Tutup">✕</button>
+                            <h3><?= e($a['judul'] ?: '(belum ada judul)') ?></h3>
+                            <?php if ($token): ?>
+                                <img src="gambar.php?t=<?= e($token) ?>" alt="" class="admin-isi-foto">
+                            <?php endif; ?>
+                            <?= renderIsiArtikel($a['isi']) ?>
+                        </article>
+                    </dialog>
+                <?php endif; ?>
             <?php endforeach; ?>
         </div>
 
@@ -397,6 +497,21 @@ document.querySelectorAll('[data-konfirmasi-hapus]').forEach(function (form) {
         if (!confirm('Hapus "' + judul + '"? Foto dan isinya ikut terhapus, tidak bisa dikembalikan.')) {
             e.preventDefault();
         }
+    });
+});
+
+document.querySelectorAll('.admin-lihat-isi').forEach(function (tombol) {
+    var dialog = document.getElementById(tombol.getAttribute('data-modal'));
+    if (!dialog) return;
+
+    tombol.addEventListener('click', function () { dialog.showModal(); });
+
+    dialog.querySelectorAll('[data-tutup-modal]').forEach(function (btn) {
+        btn.addEventListener('click', function () { dialog.close(); });
+    });
+
+    dialog.addEventListener('click', function (e) {
+        if (e.target === dialog) dialog.close();
     });
 });
 </script>
