@@ -2,19 +2,43 @@
 
 require_once __DIR__ . '/lib/helpers.php';
 
-$userId = wajibLogin();
+mulaiSesi();
+
+// Admin boleh membuka artikel siapa saja, untuk dilihat -- tombol "Tulis ulang"
+// tetap tidak akan berfungsi untuknya, karena itu diproses lewat sesi login guru.
+$lewatAdmin = !empty($_SESSION['admin_masuk']);
 
 $id = (int) ($_GET['id'] ?? 0);
 
-$stmt = $koneksi->prepare("SELECT * FROM artikel WHERE id = ? AND user_id = ? LIMIT 1");
-$stmt->bind_param("ii", $id, $userId);
-$stmt->execute();
-$artikel = $stmt->get_result()->fetch_assoc();
-$stmt->close();
+if ($lewatAdmin) {
 
-if (!$artikel) {
-    header("Location: dashboard.php");
-    exit;
+    $stmt = $koneksi->prepare("SELECT * FROM artikel WHERE id = ? LIMIT 1");
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $artikel = $stmt->get_result()->fetch_assoc();
+    $stmt->close();
+
+    if (!$artikel) {
+        header("Location: admin.php");
+        exit;
+    }
+
+    $userId = (int) $artikel['user_id'];
+
+} else {
+
+    $userId = wajibLogin();
+
+    $stmt = $koneksi->prepare("SELECT * FROM artikel WHERE id = ? AND user_id = ? LIMIT 1");
+    $stmt->bind_param("ii", $id, $userId);
+    $stmt->execute();
+    $artikel = $stmt->get_result()->fetch_assoc();
+    $stmt->close();
+
+    if (!$artikel) {
+        header("Location: dashboard.php");
+        exit;
+    }
 }
 
 $sekolah = ambilSekolah($koneksi, $userId) ?: [];
@@ -86,18 +110,16 @@ $judulHalaman = $selesai ? $artikel['judul'] : 'Artikel ' . $artikel['jenis_nama
 
 <nav class="navbar">
 
-    <div class="nav-container">
+    <div class="nav-container nav-container--center">
 
-        <div class="nav-left">
+        <a href="<?= $lewatAdmin ? 'admin.php' : 'dashboard.php' ?>" class="back-home">← <span><?= $lewatAdmin ? 'Kembali ke admin' : 'Kembali ke beranda' ?></span></a>
 
-            <a href="dashboard.php" class="back-home">← Kembali ke beranda</a>
+        <a href="<?= $lewatAdmin ? 'admin.php' : 'dashboard.php' ?>" class="brand">
+            <span class="brand-icon">✦</span>
+            <span>EduStory</span>
+        </a>
 
-            <a href="dashboard.php" class="brand">
-                <span class="brand-icon">✦</span>
-                <span>EduStory</span>
-            </a>
-
-        </div>
+        <span class="nav-spacer" aria-hidden="true"></span>
 
     </div>
 
@@ -248,9 +270,11 @@ $judulHalaman = $selesai ? $artikel['judul'] : 'Artikel ' . $artikel['jenis_nama
 
             <div class="aksi-blok aksi-lanjut">
 
-                <a href="dashboard.php" class="btn-garis btn-blok">Kembali ke beranda</a>
+                <a href="<?= $lewatAdmin ? 'admin.php' : 'dashboard.php' ?>" class="btn-garis btn-blok">
+                    <?= $lewatAdmin ? 'Kembali ke admin' : 'Kembali ke beranda' ?>
+                </a>
 
-                <?php if ($sisaCoba > 0): ?>
+                <?php if ($sisaCoba > 0 && !$lewatAdmin): ?>
                     <button
                         type="button"
                         class="btn-teks"
@@ -297,12 +321,14 @@ $judulHalaman = $selesai ? $artikel['judul'] : 'Artikel ' . $artikel['jenis_nama
 
         <div class="menulis-galat" id="menulisGalat" role="alert" hidden>
             <p id="menulisGalatTeks"></p>
-            <button type="button" class="btn-primary" id="btnCoba">Coba lagi</button>
+            <?php if (!$lewatAdmin): ?>
+                <button type="button" class="btn-primary" id="btnCoba">Coba lagi</button>
+            <?php endif; ?>
         </div>
 
         <p class="menulis-catatan">
             Kalau halaman tertutup, isianmu tetap aman. Artikel ini akan ada di
-            <a href="dashboard.php">beranda</a>.
+            <a href="<?= $lewatAdmin ? 'admin.php' : 'dashboard.php' ?>"><?= $lewatAdmin ? 'admin' : 'beranda' ?></a>.
         </p>
 
     </section>
@@ -316,7 +342,7 @@ $judulHalaman = $selesai ? $artikel['judul'] : 'Artikel ' . $artikel['jenis_nama
 
 <footer class="footer">
 
-    <p>© <?= date('Y') ?> EduStory · <a href="admin.php" style="color: inherit;">Admin</a></p>
+    <p>© <?= date('Y') ?> EduStory</p>
 
 </footer>
 

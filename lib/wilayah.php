@@ -222,11 +222,14 @@ function namaWilayahDariKode(string $tingkat, string $kodeAwal): array
 
 /*
 | Benarkah $nilai sebenarnya sebuah kode wilayah, bukan nama tempat?
-| Nama wilayah di Indonesia tidak pernah berupa angka semata.
+| Nama wilayah di Indonesia tidak pernah berupa angka semata -- baik polos
+| (mis. "320510") maupun dengan titik ala Kemendagri (mis. "32.05.10.2003").
 */
 function sepertiKodeWilayah(string $nilai): bool
 {
-    return ctype_digit(trim($nilai)) && trim($nilai) !== '';
+    $bersih = trim($nilai);
+
+    return $bersih !== '' && (bool) preg_match('/^[0-9]+(\.[0-9]+)*$/', $bersih);
 }
 
 /*

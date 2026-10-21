@@ -49,7 +49,6 @@ try {
     $databaseBelumSiap = true;
 }
 
-$jenisPertama = array_key_first($daftarJenis);
 
 ?>
 <!DOCTYPE html>
@@ -173,49 +172,38 @@ $jenisPertama = array_key_first($daftarJenis);
 
         <div class="pilih-judul">
             <h2>Mau menulis artikel apa?</h2>
-            <p>Pilih jenisnya di daftar, baca deskripsinya, lalu mulai menulis.</p>
+            <p>Pilih jenisnya, atau ketuk tanda tanya untuk baca dulu.</p>
         </div>
 
-        <div class="pilih" id="pilihJenis">
+        <div class="pilih-daftar" id="pilihJenis">
 
-            <div class="pilih-daftar" role="tablist" aria-label="Jenis artikel">
+            <?php foreach ($daftarJenis as $slug => $j): ?>
 
-                <?php foreach ($daftarJenis as $slug => $j): ?>
+                <div class="pilih-item">
 
-                    <button
-                        type="button"
-                        role="tab"
-                        class="pilih-item"
-                        id="tab-<?= e($slug) ?>"
-                        aria-controls="panel-<?= e($slug) ?>"
-                        aria-selected="<?= $slug === $jenisPertama ? 'true' : 'false' ?>"
-                        tabindex="<?= $slug === $jenisPertama ? '0' : '-1' ?>"
-                        data-target="<?= e($slug) ?>"
-                    >
+                    <a href="buat.php?jenis=<?= e(urlencode($slug)) ?>" class="pilih-main">
                         <span class="pilih-ikon <?= e($j['warna']) ?>"><?= $j['ikon'] ?></span>
 
                         <span class="pilih-teks">
                             <span class="pilih-nama"><?= e($j['nama']) ?></span>
                             <span class="pilih-ringkas"><?= e($j['ringkas']) ?></span>
                         </span>
-                    </button>
+                    </a>
 
-                <?php endforeach; ?>
+                    <button
+                        type="button"
+                        class="pilih-tanya"
+                        data-modal="modal-<?= e($slug) ?>"
+                        aria-label="Info tentang <?= e($j['nama']) ?>"
+                    >?</button>
 
-            </div>
+                </div>
 
+                <dialog class="buku-modal" id="modal-<?= e($slug) ?>">
 
-            <div class="pilih-halaman">
+                    <article class="buku">
 
-                <?php foreach ($daftarJenis as $slug => $j): ?>
-
-                    <article
-                        class="buku"
-                        role="tabpanel"
-                        id="panel-<?= e($slug) ?>"
-                        aria-labelledby="tab-<?= e($slug) ?>"
-                        <?= $slug === $jenisPertama ? '' : 'hidden' ?>
-                    >
+                        <button type="button" class="buku-tutup" data-tutup-modal aria-label="Tutup">✕</button>
 
                         <h3><?= e($j['nama']) ?></h3>
 
@@ -246,9 +234,9 @@ $jenisPertama = array_key_first($daftarJenis);
 
                     </article>
 
-                <?php endforeach; ?>
+                </dialog>
 
-            </div>
+            <?php endforeach; ?>
 
         </div>
 
@@ -328,7 +316,6 @@ $jenisPertama = array_key_first($daftarJenis);
     <p>
         © <?= date('Y') ?> EduStory
         · Cerita sekolah, jadi lebih mudah.
-        · <a href="admin.php" style="color: inherit;">Admin</a>
     </p>
 
 </footer>

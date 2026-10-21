@@ -146,18 +146,16 @@ function tampilkanField(array $f, $nilaiLama): void
 
 <nav class="navbar">
 
-    <div class="nav-container">
+    <div class="nav-container nav-container--center">
 
-        <div class="nav-left">
+        <a href="dashboard.php" class="back-home">← <span>Kembali ke beranda</span></a>
 
-            <a href="dashboard.php" class="back-home">← Kembali ke beranda</a>
+        <a href="dashboard.php" class="brand">
+            <span class="brand-icon">✦</span>
+            <span>EduStory</span>
+        </a>
 
-            <a href="dashboard.php" class="brand">
-                <span class="brand-icon">✦</span>
-                <span>EduStory</span>
-            </a>
-
-        </div>
+        <span class="nav-spacer" aria-hidden="true"></span>
 
     </div>
 
@@ -285,7 +283,7 @@ function tampilkanField(array $f, $nilaiLama): void
 
 <footer class="footer">
 
-    <p>© <?= date('Y') ?> EduStory · <a href="admin.php" style="color: inherit;">Admin</a></p>
+    <p>© <?= date('Y') ?> EduStory</p>
 
 </footer>
 

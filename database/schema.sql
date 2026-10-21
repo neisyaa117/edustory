@@ -29,11 +29,21 @@ CREATE TABLE IF NOT EXISTS artikel (
     status          ENUM('baru','menulis','selesai','gagal') NOT NULL DEFAULT 'baru',
     pesan_error     VARCHAR(500) NULL,
     jumlah_tulis    TINYINT UNSIGNED NOT NULL DEFAULT 0,
+    dikirim_klipaa  TINYINT(1) NOT NULL DEFAULT 0,
+    dikirim_pada    DATETIME NULL,
     dibuat_pada     DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     diperbarui_pada DATETIME NULL,
     PRIMARY KEY (id),
     KEY idx_artikel_user (user_id, dibuat_pada)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+-- 2b. Tanda "sudah dikirim ke klipaa" untuk artikel yang sudah ada.
+--     Bila muncul "Duplicate column name", berarti sudah pernah dijalankan.
+
+ALTER TABLE artikel
+    ADD COLUMN dikirim_klipaa TINYINT(1) NOT NULL DEFAULT 0,
+    ADD COLUMN dikirim_pada   DATETIME NULL;
 
 
 -- 3. Foto artikel (disimpan setelah dikecilkan).

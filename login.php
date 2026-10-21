@@ -96,12 +96,16 @@ if (isset($_SESSION['user_id'])) {
 
                 <label>Password</label>
 
-                <input
-                    type="password"
-                    name="password"
-                    placeholder="Masukkan password"
-                    required
-                >
+                <div class="input-sandi">
+                    <input
+                        type="password"
+                        name="password"
+                        id="passwordLogin"
+                        placeholder="Masukkan password"
+                        required
+                    >
+                    <button type="button" class="toggle-sandi" aria-label="Tampilkan password" aria-pressed="false">👁</button>
+                </div>
 
             </div>
 
@@ -134,6 +138,7 @@ if (isset($_SESSION['user_id'])) {
     · <a href="admin.php" style="color: inherit;">Admin</a>
 </footer>
 
+<script src="assets/js/toggle-sandi.js"></script>
 
 </body>
 </html>

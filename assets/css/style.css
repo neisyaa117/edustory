@@ -149,6 +149,32 @@ textarea {
     gap: 22px;
 }
 
+/* Dipakai di halaman yang punya tombol kembali: tombolnya di kiri,
+   nama EduStory tetap di tengah navbar, bukan menempel di sebelah tombol. */
+.nav-container--center {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+}
+
+.nav-container--center .back-home {
+    justify-self: start;
+}
+
+.nav-container--center .brand {
+    justify-self: center;
+}
+
+.nav-container--center .nav-spacer,
+.nav-container--center .profile-step {
+    justify-self: end;
+}
+
+@media (max-width: 560px) {
+    .nav-container--center .back-home span {
+        display: none; /* sisakan panah saja "←" di layar sempit, biar nama sekolah/brand tidak kegencet */
+    }
+}
+
 .back-home {
     display: inline-flex;
     align-items: center;
@@ -1652,5 +1678,186 @@ textarea {
 
     .story-card {
         padding: 20px;
+    }
+}
+
+/* =========================
+   TOGGLE LIHAT KATA SANDI
+========================= */
+
+.input-sandi {
+    position: relative;
+}
+
+.input-sandi input {
+    padding-right: 46px;
+}
+
+.toggle-sandi {
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    transform: translateY(-50%);
+    background: none;
+    border: 0;
+    font-size: 18px;
+    line-height: 1;
+    color: var(--ink-soft);
+    cursor: pointer;
+    padding: 4px;
+}
+
+.toggle-sandi:hover {
+    color: var(--ink);
+}
+
+.toggle-sandi[aria-pressed="true"] {
+    color: var(--green-dark);
+}
+
+
+/* =========================
+   HALAMAN ADMIN
+========================= */
+
+.admin-wrap {
+    max-width: 880px;
+    margin: 40px auto;
+    padding: 0 20px 60px;
+}
+
+.admin-wrap h1 {
+    margin-bottom: 4px;
+}
+
+.admin-sub {
+    color: var(--ink-soft);
+    margin-top: 0;
+    margin-bottom: 24px;
+}
+
+.admin-stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 14px;
+    margin-bottom: 36px;
+}
+
+.admin-stat-grid strong {
+    display: block;
+    font-family: "Baloo 2", sans-serif;
+    font-size: 28px;
+    line-height: 1.1;
+}
+
+.admin-artikel-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.admin-artikel-row {
+    display: grid;
+    grid-template-columns: 72px 1fr auto;
+    gap: 16px;
+    align-items: center;
+    padding: 14px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+}
+
+.admin-artikel-foto {
+    width: 72px;
+    height: 72px;
+    border-radius: 9px;
+    overflow: hidden;
+    background: var(--cream);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.admin-artikel-foto img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.admin-artikel-foto-kosong {
+    font-size: 10.5px;
+    color: var(--ink-soft);
+    text-align: center;
+    padding: 0 4px;
+}
+
+.admin-artikel-info {
+    min-width: 0;
+}
+
+.admin-artikel-info strong {
+    display: block;
+    font-size: 15px;
+    line-height: 1.35;
+    margin-bottom: 3px;
+}
+
+.admin-artikel-meta {
+    color: var(--ink-soft);
+    font-size: 12.5px;
+    margin-bottom: 6px;
+}
+
+.admin-artikel-error {
+    margin-top: 6px;
+    font-size: 12px;
+    color: #8f3b2a;
+}
+
+.admin-artikel-klipaa {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+    text-align: right;
+}
+
+.admin-btn-kecil {
+    padding: 6px 14px;
+    font-size: 12.5px;
+}
+
+.admin-artikel-buka {
+    font-size: 12.5px;
+    color: var(--green-dark);
+    font-weight: 700;
+}
+
+.admin-paginasi {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 24px;
+}
+
+@media (max-width: 600px) {
+    .admin-artikel-row {
+        grid-template-columns: 56px 1fr;
+    }
+
+    .admin-artikel-klipaa {
+        grid-column: 1 / -1;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        text-align: left;
+        border-top: 1px dashed var(--line);
+        padding-top: 10px;
+        margin-top: 4px;
+    }
+
+    .admin-artikel-foto {
+        width: 56px;
+        height: 56px;
     }
 }

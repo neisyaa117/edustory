@@ -104,6 +104,28 @@ function ambilSekolah(mysqli $k, int $userId): ?array
     return $baris ? perbaikiKodeWilayah($k, $baris) : null;
 }
 
+/*
+| Tandai/batalkan status "sudah dikirim ke klipaa" untuk satu artikel.
+| Dipakai dari admin.php -- bukan otomatis, karena pengiriman ke klipaa
+| masih dilakukan manual (salin-tempel) oleh gurunya sendiri.
+*/
+function setKlipaaArtikel(mysqli $k, int $artikelId, bool $sudahKirim): bool
+{
+    $stmt = $k->prepare(
+        "UPDATE artikel SET dikirim_klipaa = ?, dikirim_pada = ? WHERE id = ?"
+    );
+
+    $nilai  = $sudahKirim ? 1 : 0;
+    $waktu  = $sudahKirim ? date('Y-m-d H:i:s') : null;
+
+    $stmt->bind_param("isi", $nilai, $waktu, $artikelId);
+    $ok = $stmt->execute();
+    $stmt->close();
+
+    return $ok;
+}
+
+
 function daftarJenisArtikel(): array
 {
     static $daftar = null;

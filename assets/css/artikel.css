@@ -99,52 +99,67 @@ a.school-mini-card:hover {
     font-size: 14px;
 }
 
-.pilih {
-    display: grid;
-    grid-template-columns: minmax(270px, 330px) minmax(0, 1fr);
-    align-items: start;
-}
-
 .pilih-daftar {
-    position: relative;
-    z-index: 2;
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-    padding: 4px 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 10px;
 }
 
 .pilih-item {
     position: relative;
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 6px;
     width: 100%;
-    padding: 11px 14px;
-    background: transparent;
-    border: 1px solid transparent;
-    border-right: 0;
-    border-radius: 9px 0 0 9px;
-    color: var(--ink);
-    text-align: left;
-    cursor: pointer;
-    transition: background .15s;
+    padding: 6px 8px 6px 6px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 11px;
+    transition: box-shadow .15s, border-color .15s;
 }
 
 .pilih-item:hover {
-    background: rgba(255, 253, 248, .75);
+    border-color: var(--green);
+    box-shadow: var(--shadow);
 }
 
-.pilih-item[aria-selected="true"] {
-    margin-right: -1px;
-    background: var(--paper);
-    border-color: var(--line);
-    box-shadow: inset 4px 0 0 var(--green);
+.pilih-main {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+    flex: 1;
+    padding: 5px 4px;
+    color: var(--ink);
+    text-decoration: none;
 }
 
-.pilih-item:focus-visible {
+.pilih-main:focus-visible {
     outline: 3px solid var(--fokus);
-    outline-offset: -3px;
+    outline-offset: -2px;
+    border-radius: 7px;
+}
+
+.pilih-tanya {
+    flex: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    background: var(--cream);
+    color: var(--ink-soft);
+    font-family: "Baloo 2", sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background .15s, color .15s;
+}
+
+.pilih-tanya:hover,
+.pilih-tanya:focus-visible {
+    background: var(--green);
+    color: #fff;
+    border-color: var(--green);
 }
 
 .pilih-ikon {
@@ -179,21 +194,35 @@ a.school-mini-card:hover {
 }
 
 
-/* Halaman buku tulis */
+/* Jendela "buku" -- penjelasan satu jenis artikel, dibuka lewat tombol "?" */
 
-.pilih-halaman {
-    position: relative;
-    background: var(--paper);
+.buku-modal {
+    padding: 0;
     border: 1px solid var(--line);
-    border-radius: 4px 12px 12px 4px;
-    box-shadow: var(--shadow);
+    border-radius: 12px;
+    box-shadow: var(--shadow-hover);
+    width: min(560px, calc(100vw - 32px));
+    max-height: min(82vh, 720px);
+    margin: auto;
+    overflow: hidden;
+}
+
+.buku-modal::backdrop {
+    background: rgba(24, 37, 43, .45);
+}
+
+.buku-modal[open] {
+    display: flex;
 }
 
 .buku {
     --baris: 28px;
 
     position: relative;
-    padding: 28px 44px 40px 88px;
+    overflow-y: auto;
+    max-height: inherit;
+    background: var(--paper);
+    padding: 28px 28px 32px 56px;
     color: var(--ink);
     font-size: 15px;
     line-height: var(--baris);
@@ -212,14 +241,38 @@ a.school-mini-card:hover {
     position: absolute;
     top: 0;
     bottom: 0;
-    left: 62px;
+    left: 30px;
     width: 2px;
     background: var(--margin-buku);
 }
 
+.buku-tutup {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    z-index: 1;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    background: var(--cream);
+    color: var(--ink-soft);
+    font-size: 14px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.buku-tutup:hover,
+.buku-tutup:focus-visible {
+    background: var(--green);
+    color: #fff;
+    border-color: var(--green);
+}
+
 .buku h3 {
+    padding-right: 40px;
     font-family: "Baloo 2", sans-serif;
-    font-size: 30px;
+    font-size: 26px;
     font-weight: 700;
     line-height: 56px;
 }
@@ -936,60 +989,27 @@ a.school-mini-card:hover {
 
 @media (max-width: 900px) {
 
-    .pilih {
-        display: block;
-    }
-
     .pilih-daftar {
-        flex-direction: row;
+        grid-template-columns: 1fr;
         gap: 8px;
-        padding: 2px 2px 14px;
-        overflow-x: auto;
-    }
-
-    .pilih-item {
-        flex: none;
-        width: auto;
-        padding: 7px 15px 7px 7px;
-        background: var(--paper);
-        border: 1px solid var(--line);
-        border-radius: 999px;
-    }
-
-    .pilih-item[aria-selected="true"] {
-        margin-right: 0;
-        background: var(--ink);
-        border-color: var(--ink);
-        box-shadow: none;
-        color: #fff;
     }
 
     .pilih-ikon {
-        width: 34px;
-        height: 34px;
-        border-radius: 50%;
-        font-size: 16px;
+        width: 36px;
+        height: 36px;
+        font-size: 17px;
     }
 
     .pilih-nama {
         font-size: 16px;
-        white-space: nowrap;
-    }
-
-    .pilih-ringkas {
-        display: none;
-    }
-
-    .pilih-halaman {
-        border-radius: 12px;
     }
 
     .buku {
-        padding: 24px 22px 32px 56px;
+        padding: 22px 20px 28px 44px;
     }
 
     .buku::before {
-        left: 36px;
+        left: 24px;
     }
 
     .artikel-tata {

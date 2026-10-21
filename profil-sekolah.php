@@ -12,12 +12,11 @@ require_once __DIR__ . '/lib/helpers.php';
 
 $user_id = $_SESSION['user_id'];
 
-$query = mysqli_query(
-    $koneksi,
-    "SELECT * FROM sekolah WHERE user_id = '$user_id' LIMIT 1"
-);
-
-$data = mysqli_fetch_assoc($query);
+$stmt = $koneksi->prepare("SELECT * FROM sekolah WHERE user_id = ? LIMIT 1");
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$data = $stmt->get_result()->fetch_assoc();
+$stmt->close();
 
 // Samakan kode wilayah dengan data Kemendagri (memperbaiki kode lama).
 if ($data) {
@@ -57,23 +56,21 @@ if ($data) {
 
 <nav class="navbar">
 
-    <div class="nav-container">
+    <div class="nav-container nav-container--center">
 
-        <div class="nav-left">
+        <?php if ($data): ?>
+            <a href="dashboard.php" class="back-home">← <span>Kembali ke beranda</span></a>
+        <?php else: ?>
+            <span class="nav-spacer" aria-hidden="true"></span>
+        <?php endif; ?>
 
-            <?php if ($data): ?>
-                <a href="dashboard.php" class="back-home">← Kembali ke beranda</a>
-            <?php endif; ?>
+        <a href="<?= $data ? 'dashboard.php' : 'index.php' ?>" class="brand">
 
-            <a href="<?= $data ? 'dashboard.php' : 'index.php' ?>" class="brand">
+            <span class="brand-icon">✦</span>
 
-                <span class="brand-icon">✦</span>
+            <span>EduStory</span>
 
-                <span>EduStory</span>
-
-            </a>
-
-        </div>
+        </a>
 
         <div class="profile-step">
             <?= $data ? 'Ubah data sekolah' : 'Langkah 1 dari 1' ?>
@@ -350,7 +347,6 @@ if ($data) {
 
     <p>
         © <?php echo date('Y'); ?> EduStory
-        · <a href="admin.php" style="color: inherit;">Admin</a>
     </p>
 
 </footer>

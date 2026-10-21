@@ -735,13 +735,17 @@ $error = $_GET['error'] ?? '';
                     <span class="required">*</span>
                 </label>
 
-                <input
-                    type="password"
-                    name="password"
-                    placeholder="Buat password"
-                    minlength="6"
-                    required
-                >
+                <div class="input-sandi">
+                    <input
+                        type="password"
+                        name="password"
+                        id="passwordDaftar"
+                        placeholder="Buat password"
+                        minlength="6"
+                        required
+                    >
+                    <button type="button" class="toggle-sandi" aria-label="Tampilkan password" aria-pressed="false">👁</button>
+                </div>
 
             </div>
 
@@ -1504,6 +1508,8 @@ document
 loadProvinsi();
 
 </script>
+
+<script src="assets/js/toggle-sandi.js"></script>
 
 </body>
 </html>
