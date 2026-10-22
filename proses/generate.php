@@ -115,7 +115,7 @@ ignore_user_abort(true);
 set_time_limit(150);
 
 $sekolah = ambilSekolah($koneksi, $userId) ?: [];
-$daftarJenis = daftarJenisArtikel();
+$daftarJenis = daftarJenisArtikel(true);
 $jenis = $daftarJenis[$artikel['jenis']] ?? null;
 
 try {

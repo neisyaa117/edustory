@@ -57,3 +57,18 @@ otomatis diganti.
 Artikel tersimpan di tabel `artikel` (judul, isi) dan foto di `artikel_gambar`
 (alamat foto: `gambar.php?t=<token>`). Tambahkan satu fungsi kirim di `lib/` yang dipanggil
 setelah `generate.php` selesai, atau dari tombol di `artikel.php`.
+
+## Halaman admin dan kelola jenis artikel
+
+`admin.php` punya tiga tab: **Data akun**, **Hasil artikel**, dan **Jenis artikel**.
+Tab Jenis artikel adalah CRUD untuk pilihan "Mau menulis artikel apa?" di beranda guru
+(tambah, ubah, hapus).
+
+- `config/jenis-artikel.php` tidak diubah dan tetap jadi daftar bawaan.
+- Tambahan dan ubahan admin disimpan di tabel `jenis_artikel_db`
+  (`lib/jenis-db.php`). Tabel dibuat otomatis saat admin masuk; kalau akun
+  database tidak boleh `CREATE`, jalankan `database/jenis-artikel.sql` sekali di phpMyAdmin.
+- Jenis bawaan yang "dihapus" hanya disembunyikan dan bisa ditampilkan lagi;
+  yang diubah bisa dikembalikan lewat "Kembalikan ke bawaan".
+- Jenis buatan admin yang sudah punya artikel hanya dinonaktifkan, bukan dihapus
+  permanen, supaya artikel lama tetap aman.

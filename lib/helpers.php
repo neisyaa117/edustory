@@ -157,15 +157,43 @@ function hapusArtikel(mysqli $k, int $artikelId): bool
 }
 
 
-function daftarJenisArtikel(): array
+/*
+| Daftar jenis artikel = isi config/jenis-artikel.php (tidak diubah)
+| ditambah catatan dari halaman admin (jenis_artikel_db): jenis baru,
+| jenis bawaan yang diedit, dan jenis yang dihapus/disembunyikan.
+| Bila tabelnya belum ada atau bermasalah, yang dipakai tetap config saja.
+|
+| $termasukNonaktif = true hanya dipakai admin dan proses/generate.php,
+| supaya artikel lama dari jenis yang sudah dihapus masih bisa ditulis ulang.
+*/
+function daftarJenisArtikel(bool $termasukNonaktif = false): array
 {
-    static $daftar = null;
+    static $bawaan = null;
+    static $cache  = [];
 
-    if ($daftar === null) {
-        $daftar = require __DIR__ . '/../config/jenis-artikel.php';
+    if ($bawaan === null) {
+        $bawaan = require __DIR__ . '/../config/jenis-artikel.php';
     }
 
-    return $daftar;
+    $kunci = $termasukNonaktif ? 'semua' : 'aktif';
+
+    if (!isset($cache[$kunci])) {
+
+        global $koneksi;
+
+        $cache[$kunci] = $bawaan;
+
+        if (isset($koneksi) && $koneksi instanceof mysqli) {
+            try {
+                require_once __DIR__ . '/jenis-db.php';
+                $cache[$kunci] = gabungJenisArtikel($bawaan, $koneksi, $termasukNonaktif);
+            } catch (Throwable $e) {
+                error_log('Jenis artikel dari database gagal dimuat: ' . $e->getMessage());
+            }
+        }
+    }
+
+    return $cache[$kunci];
 }
 
 /* Semua isian pada satu jenis artikel, dalam satu daftar rata. */
